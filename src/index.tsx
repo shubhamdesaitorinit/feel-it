@@ -13,7 +13,7 @@ const router = createBrowserRouter([
     element: <App />,
     children: [{ path: "home", element: <Home /> }],
   },
-  { path: "*", element: <Home /> },
+  { path: "notfound", element: <Home /> },
 ]);
 
 const root = ReactDOM.createRoot(
