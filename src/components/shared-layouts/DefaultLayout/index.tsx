@@ -1,4 +1,4 @@
-import { useEffect, useReducer } from "react";
+import { useEffect} from "react";
 import { useSelector } from "react-redux";
 import { Outlet, useNavigate } from "react-router-dom";
 import Navigation from "../../shared-containers/Navigation";
