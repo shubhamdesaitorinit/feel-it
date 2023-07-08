@@ -1,4 +1,4 @@
-import { useEffect} from "react";
+import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { Outlet, useNavigate } from "react-router-dom";
 import Navigation from "../../shared-containers/Navigation";
@@ -13,7 +13,7 @@ const DefaultLayout = () => {
     if (!user?.userData?.token) {
       navigate("/login");
     }
-  }, [user?.userData?.token]);
+  }, [user?.userData?.token, navigate]);
 
   return (
     <>
