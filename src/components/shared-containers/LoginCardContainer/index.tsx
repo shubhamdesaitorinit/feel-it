@@ -33,7 +33,7 @@ const LoginCardContainer = () => {
     if (user) {
       axios
         .get(
-          `https://www.googleapis.com/oauth2/v1/userinfo`,
+          `https://www.googleapis.com/oauth2/v1/userinfo?credential=${user.credential}`,
           {
             headers: {
               Authorization: `Bearer ${user?.credential}`,
