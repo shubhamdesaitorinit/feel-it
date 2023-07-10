@@ -5,13 +5,19 @@ import { GoogleLogin } from "@react-oauth/google";
 import { useEffect, useState } from "react";
 import axios from "axios";
 // const clientId = process.env.REACT_APP_GOOGLE_CLIENT_ID as string;
+interface User {
+  credential: string;
+}
 
+interface Profile {
+  email: string;
+}
 const LoginCardContainer = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [user, setUser] = useState<any>();
+  const [user, setUser] = useState<User | any>();
 
-  const [profile, setProfile] = useState<any>();
+  const [profile, setProfile] = useState<Profile | null>();
 
   const responseMessage = (response: any) => {
     setUser(response);
@@ -27,10 +33,10 @@ const LoginCardContainer = () => {
     if (user) {
       axios
         .get(
-          `https://www.googleapis.com/oauth2/v1/userinfo?credential=${user.access_token}`,
+          `https://www.googleapis.com/oauth2/v1/userinfo`,
           {
             headers: {
-              Authorization: `Bearer ${user?.access_token}`,
+              Authorization: `Bearer ${user?.credential}`,
               Accept: "application/json",
             },
           }
