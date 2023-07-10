@@ -8,7 +8,7 @@ import { Provider } from "react-redux";
 import store from "./ducks/store";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 
-const clientId = process.env.REACT_APP_CLIENT_KEY as string;
+const clientId = process.env.REACT_APP_CLIENT_ID as string;
 console.log(clientId);
 
 const root = ReactDOM.createRoot(
