@@ -19,10 +19,7 @@ const LoginCardContainer = () => {
 
   const [profile, setProfile] = useState<Profile | null>();
 
-  // const loginHandler = () => {
-  //   dispatch(saveUserToken({ token: profile?.email }));
-  //   navigate("/");
-  // };
+  
   const responseMessage = (response: any) => {
     setUser(response);
     dispatch(saveUserToken({ token: profile?.email }));
@@ -33,15 +30,6 @@ const LoginCardContainer = () => {
     console.log("error");
   };
 
-  // const login = useGoogleLogin({
-  //   onSuccess: (codeResponse) => setUser(codeResponse),
-  //   onError: (error) => console.log("Login Failed:", error),
-  // });
-
-  // const logOut = () => {
-  //   googleLogout();
-  //   setProfile(null);
-  // };
 
   useEffect(() => {
     if (user) {
