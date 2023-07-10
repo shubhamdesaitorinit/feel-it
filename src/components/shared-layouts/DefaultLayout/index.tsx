@@ -1,10 +1,10 @@
-// import { useEffect } from "react";
+import { useEffect } from "react";
 import { useSelector } from "react-redux";
-import { Outlet } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import Navigation from "../../shared-containers/Navigation";
 
 const DefaultLayout = () => {
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
   const { user } = useSelector((state: UserStateType) => state);
   console.log(user);
   const token = user;
