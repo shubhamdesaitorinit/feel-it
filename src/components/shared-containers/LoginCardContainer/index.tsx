@@ -1,7 +1,7 @@
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { saveUserToken } from "../../../reducers/UserReducer";
-import { GoogleLogin, googleLogout, useGoogleLogin } from "@react-oauth/google";
+import { GoogleLogin } from "@react-oauth/google";
 import { useEffect, useState } from "react";
 import axios from "axios";
 // const clientId = process.env.REACT_APP_GOOGLE_CLIENT_ID as string;
@@ -25,6 +25,7 @@ const LoginCardContainer = () => {
   // };
   const responseMessage = (response: any) => {
     setUser(response);
+    dispatch(saveUserToken({ token: profile?.email }));
 
     console.log(response);
   };
@@ -32,15 +33,15 @@ const LoginCardContainer = () => {
     console.log("error");
   };
 
-  const login = useGoogleLogin({
-    onSuccess: (codeResponse) => setUser(codeResponse),
-    onError: (error) => console.log("Login Failed:", error),
-  });
+  // const login = useGoogleLogin({
+  //   onSuccess: (codeResponse) => setUser(codeResponse),
+  //   onError: (error) => console.log("Login Failed:", error),
+  // });
 
-  const logOut = () => {
-    googleLogout();
-    setProfile(null);
-  };
+  // const logOut = () => {
+  //   googleLogout();
+  //   setProfile(null);
+  // };
 
   useEffect(() => {
     if (user) {
@@ -60,6 +61,12 @@ const LoginCardContainer = () => {
         .catch((err) => console.log(err));
     }
   }, [user]);
+
+  useEffect(() => {
+    if (profile?.email) {
+      navigate("/");
+    }
+  }, [profile?.email, navigate]);
 
   return (
     <div className="h-1/4 w-4/5 justify-around flex flex-col bg-white rounded-2xl ">
