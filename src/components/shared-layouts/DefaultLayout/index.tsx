@@ -9,11 +9,11 @@ const DefaultLayout = () => {
   console.log(user);
   const token = user;
   console.log({ token: user?.userData?.token }, token);
-  // useEffect(() => {
-  //   if (!user?.userData?.token) {
-  //     navigate("/login");
-  //   }
-  // }, [user?.userData?.token, navigate]);
+  useEffect(() => {
+    if (!user?.userData?.token) {
+      navigate("/login");
+    }
+  }, [user?.userData?.token, navigate]);
 
   return (
     <>
