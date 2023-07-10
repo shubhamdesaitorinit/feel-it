@@ -1,5 +1,5 @@
 interface UserStateType {
   user: {
-    userData: { token: string };
+    userData: { token: string; email: string };
   };
 }

@@ -1,19 +1,39 @@
 import { useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { Outlet, useNavigate } from "react-router-dom";
 import Navigation from "../../shared-containers/Navigation";
+import { saveUserToken } from "../../../reducers/UserReducer";
+import Cookies from "js-cookie";
+import { supabase } from "../../../supabase/Auth";
 
 const DefaultLayout = () => {
   const navigate = useNavigate();
-  const { user } = useSelector((state: UserStateType) => state);
-  console.log(user);
-  const token = user;
-  console.log({ token: user?.userData?.token }, token);
+  const dispatch = useDispatch();
+
   useEffect(() => {
-    if (!user?.userData?.token) {
-      navigate("/login");
-    }
-  }, [user?.userData?.token, navigate]);
+    (async () => {
+      const {
+        data: { session },
+      } = await supabase.auth.getSession();
+      console.log({ session });
+
+      if (!session?.access_token) {
+        navigate("/login");
+        return;
+      }
+
+      if (session?.access_token) {
+        Cookies.set("userData", session?.access_token);
+        dispatch(
+          saveUserToken({
+            token: session?.access_token,
+            email: session?.user?.email,
+          })
+        );
+      }
+    })();
+    // eslint-disable-next-line
+  }, []);
 
   return (
     <>

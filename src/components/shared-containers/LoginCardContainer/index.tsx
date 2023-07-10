@@ -1,28 +1,32 @@
-import { useDispatch } from "react-redux";
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { saveUserToken } from "../../../reducers/UserReducer";
-import { GoogleLogin } from "@react-oauth/google";
-// const clientId = process.env.REACT_APP_GOOGLE_CLIENT_ID as string;
+import { supabase } from "../../../supabase/Auth";
 
 const LoginCardContainer = () => {
-  const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const loginHandler = () => {
-    dispatch(saveUserToken({ token: "User" }));
-    navigate("/");
-  };
-  const responseMessage = (response: any) => {
-    console.log(response);
-  };
-  const errorMessage = () => {
-    console.log("error");
+  useEffect(() => {
+    (async () => {
+      const {
+        data: { session },
+      } = await supabase.auth.getSession();
+
+      if (session?.access_token) {
+        navigate("/");
+      }
+    })();
+    // eslint-disable-next-line
+  }, []);
+
+  const loginHandler = async () => {
+    await supabase.auth?.signInWithOAuth({
+      provider: "google",
+    });
   };
 
   return (
     <div className="h-1/4 w-4/5 justify-around flex flex-col bg-white rounded-2xl ">
       <h4 className="text-center ">Login</h4>
-      <GoogleLogin onSuccess={responseMessage} onError={errorMessage} />
 
       <button
         onClick={loginHandler}
