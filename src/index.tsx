@@ -8,17 +8,15 @@ import { Provider } from "react-redux";
 import store from "./ducks/store";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 
-// const clientId = process.env.REACT_APP_GOOGLE_CLIENT_ID as string;
-// console.log(clientId);
+const clientId = process.env.REACT_APP_CLIENT_ID as string;
+console.log(clientId);
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
 root.render(
   <GoogleOAuthProvider
-    clientId={
-      "1023699383316-lqugha3kq18rgbdnuhei3ao0r20j3nmq.apps.googleusercontent.com"
-    }
+    clientId={clientId}
   >
     <React.StrictMode>
       <Provider store={store}>
