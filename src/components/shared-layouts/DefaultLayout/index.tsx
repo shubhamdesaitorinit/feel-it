@@ -5,6 +5,8 @@ import Navigation from "../../shared-containers/Navigation";
 import { saveUserToken } from "../../../reducers/UserReducer";
 import Cookies from "js-cookie";
 import { supabase } from "../../../supabase/Auth";
+import { Container } from "@mui/material";
+import SongPlayerContainer from "../../shared-containers/SongPlayerContainer";
 
 const DefaultLayout = () => {
   const navigate = useNavigate();
@@ -15,7 +17,6 @@ const DefaultLayout = () => {
       const {
         data: { session },
       } = await supabase.auth.getSession();
-      console.log({ session });
 
       if (!session?.access_token) {
         navigate("/login");
@@ -38,7 +39,10 @@ const DefaultLayout = () => {
   return (
     <>
       <Navigation />
-      <Outlet />
+      <Container maxWidth={false} disableGutters>
+        <Outlet />
+      </Container>
+      <SongPlayerContainer />
     </>
   );
 };

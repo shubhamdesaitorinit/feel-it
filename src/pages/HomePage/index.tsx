@@ -1,8 +1,11 @@
+import SongsContainer from "../../components/shared-containers/SongsContainer";
+import { StyledRootBox } from "./style";
+
 const HomePage = () => {
   return (
-    <div>
-      <p>Home Page</p>
-    </div>
+    <StyledRootBox>
+      <SongsContainer />
+    </StyledRootBox>
   );
 };
 

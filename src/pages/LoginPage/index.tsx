@@ -1,19 +1,32 @@
+import { Box, CardMedia } from "@mui/material";
 import LoginImage from "../../assets/images/loginImage.jpeg";
 import LoginCardContainer from "../../components/shared-containers/LoginCardContainer";
 
 const LoginPage = () => {
   return (
     <div className="container-2xl h-screen flex mx-auto">
-      <div className="w-3/4 p-2">
-        <img
-          className=" object-left h-full w-full	"
-          src={LoginImage}
-          alt=""
-        ></img>
-      </div>
-      <div className="p-2 flex justify-around items-center	 text-center w-1/4 h-full bg-orange-700">
+      <Box sx={{ padding: "8px", width: "70%", height: "100%" }}>
+        <CardMedia
+          component="img"
+          sx={{
+            borderRadius: "10px",
+            height: "100%",
+          }}
+          image={LoginImage}
+          alt="S"
+        ></CardMedia>
+      </Box>
+      <Box
+        sx={{
+          width: "30%",
+          display: "flex",
+          justifyContent: "space-around",
+          alignItems: "center",
+          backgroundColor: "#c2410c",
+        }}
+      >
         <LoginCardContainer />
-      </div>
+      </Box>
     </div>
   );
 };
