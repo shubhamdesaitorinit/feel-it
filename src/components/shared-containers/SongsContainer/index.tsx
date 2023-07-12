@@ -65,11 +65,13 @@ const SongsContainer = () => {
   };
 
   const setSong = (song: Song) => {
-    if (currentSong?.previewUrl === song.previewUrl) {
-      dispatch(setPlay({ isPlaying: !isPlaying }));
+    if (currentSong?.previewUrl === song.previewUrl && isPlaying) {
+      dispatch(setPlay({ isPlaying: false }));
+    } else if (currentSong?.previewUrl === song.previewUrl && !isPlaying) {
+      dispatch(setPlay({ isPlaying: true }));
     } else {
       dispatch(setCurrentSong({ currentSong: song }));
-      dispatch(setPlay({ isPlaying: true }));
+      dispatch(setPlay({ isPlaying: isPlaying ? isPlaying : !isPlaying }));
     }
   };
 
@@ -106,7 +108,10 @@ const SongsContainer = () => {
                 borderRadius: "10px",
               }}
             />
-            <Typography>{song?.trackCensoredName?.slice(0, 10)}</Typography>
+            <Typography>
+              {song?.trackCensoredName?.slice(0, 10) ||
+                song?.artistName?.slice(0, 10)}
+            </Typography>
           </Box>
         );
       })

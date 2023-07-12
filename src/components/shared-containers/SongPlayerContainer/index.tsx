@@ -3,11 +3,13 @@ import { useState, useEffect, useRef } from "react";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import PauseIcon from "@mui/icons-material/Pause";
 import VolumeUpIcon from "@mui/icons-material/VolumeUp";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import { StyledRootBox } from "./style";
+import { setPlay } from "../../../reducers/SongReducer";
 
 const SongPlayerContainer = () => {
+  const dispatch = useDispatch();
   const {
     currentSong,
     songAction: { isPlaying },
@@ -20,18 +22,24 @@ const SongPlayerContainer = () => {
   //Functions
   const togglePlayback = () => {
     if (audioRef.current) {
-      if (audioRef.current.paused) {
+      if (audioRef.current.paused || isPlaying) {
         audioRef.current.play().catch((error) => {
           console.log("Autoplay prevented:", error);
         });
-      } else if (!audioRef.current.paused) {
+      } else if (!audioRef.current.paused || !isPlaying) {
         audioRef.current.pause();
       }
     }
   };
 
-  const playMusic = () => {
-    togglePlayback();
+  const togglePlay = () => {
+    if (audioRef.current) {
+      if (audioRef.current.paused || !isPlaying) {
+        dispatch(setPlay({ isPlaying: true }));
+      } else if (!audioRef.current.paused || isPlaying) {
+        dispatch(setPlay({ isPlaying: false }));
+      }
+    }
   };
 
   const handleVolumeChange = (newValue: number) => {
@@ -48,7 +56,7 @@ const SongPlayerContainer = () => {
       togglePlayback();
     }
     // eslint-disable-next-line
-  }, [isPlaying]);
+  }, [currentSong.previewUrl, isPlaying]);
 
   return (
     <StyledRootBox>
@@ -61,7 +69,7 @@ const SongPlayerContainer = () => {
           alt="S"
         ></CardMedia>
         <Typography>{currentSong.artistName}</Typography>
-        <IconButton onClick={playMusic} size={"large"}>
+        <IconButton onClick={togglePlay} size={"large"}>
           {isPlaying ? <PauseIcon /> : <PlayArrowIcon />}
         </IconButton>
         <IconButton onClick={() => {}} size={"large"}>
