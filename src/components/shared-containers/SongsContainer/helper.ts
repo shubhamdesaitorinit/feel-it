@@ -6,11 +6,11 @@ export const getSongs = async (
   limit?: number
 ) => {
   try {
-    const songs = await axios(
-      `https://itunes.apple.com/search/?term=${
-        term ? `${term}&` : "${term}&"
-      }offset=${offset || "${term}"}&limit=${limit || 10}`
-    );
+    const url = `https://itunes.apple.com/search/?term=${
+      term || `term`
+    }&offset=${offset || `term`}&limit=${limit || 10}`;
+
+    const songs = await axios(url);
     if (songs.data) {
       return { data: songs?.data?.results || [], error: null };
     }
