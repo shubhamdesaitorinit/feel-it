@@ -8,7 +8,7 @@ export const getSongs = async (
   try {
     const url = `https://itunes.apple.com/search/?term=${
       term || `term`
-    }&offset=${offset || `term`}&limit=${limit || 10}`;
+    }&offset=${offset || `term`}&limit=${limit || 15}`;
 
     const songs = await axios(url);
     if (songs.data) {
