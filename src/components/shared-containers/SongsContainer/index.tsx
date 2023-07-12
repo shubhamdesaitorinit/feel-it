@@ -45,7 +45,7 @@ const SongsContainer = () => {
     const newSongs = await getSongs(search);
     setIsLoading(false);
 
-    if (newSongs?.data !== null) {
+    if (newSongs?.data !== null && newSongs?.data !== undefined) {
       const refinedData = refineSongsData(newSongs?.data);
       dispatch(setSerchedSong({ searchSongs: refinedData }));
     }
