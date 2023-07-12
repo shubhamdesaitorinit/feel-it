@@ -1,11 +1,11 @@
-import { CardMedia } from "@mui/material";
+import { Box, CardMedia } from "@mui/material";
 import LoginImage from "../../assets/images/loginImage.jpeg";
 import LoginCardContainer from "../../components/shared-containers/LoginCardContainer";
 import { StyledLoginBox, StyledRootBox } from "./style";
 
 const LoginPage = () => {
   return (
-    <div className="container-2xl h-screen flex mx-auto">
+    <Box className="container-2xl h-screen flex mx-auto">
       <StyledRootBox>
         <CardMedia
           component="img"
@@ -20,7 +20,7 @@ const LoginPage = () => {
       <StyledLoginBox>
         <LoginCardContainer />
       </StyledLoginBox>
-    </div>
+    </Box>
   );
 };
 export default LoginPage;

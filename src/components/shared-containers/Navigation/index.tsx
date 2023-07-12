@@ -45,7 +45,7 @@ const Navigation = () => {
   const handleLogout = async () => {
     setAnchorEl(null);
     await supabase.auth.signOut();
-    navigate("/login");
+    navigate("/");
   };
   const handleClose = () => {
     setAnchorEl(null);
