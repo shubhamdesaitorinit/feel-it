@@ -68,7 +68,9 @@ const SongPlayerContainer = () => {
           image={currentSong?.artworkUrl100}
           alt="S"
         ></CardMedia>
-        <Typography>{currentSong.artistName}</Typography>
+        <Typography>
+          {currentSong?.trackCensoredName || currentSong?.artistName}
+        </Typography>
         <IconButton onClick={togglePlay} size={"large"}>
           {isPlaying ? <PauseIcon /> : <PlayArrowIcon />}
         </IconButton>
