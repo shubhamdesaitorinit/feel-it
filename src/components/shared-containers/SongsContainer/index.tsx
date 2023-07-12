@@ -1,6 +1,7 @@
 import { Box, CardMedia, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { DEFAULT_SONG_REQUEST_LIMIT } from "../../../constants";
 import {
   setCurrentSong,
   setPlay,
@@ -24,7 +25,7 @@ const SongsContainer = () => {
 
   const getSongData = async () => {
     setIsLoading(true);
-    const newSongs = await getSongs(search, page, 10);
+    const newSongs = await getSongs(search, page, DEFAULT_SONG_REQUEST_LIMIT);
     setIsLoading(false);
 
     if (newSongs?.data !== null) {

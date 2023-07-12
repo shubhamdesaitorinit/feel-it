@@ -1,4 +1,5 @@
 import axios from "axios";
+import { DEFAULT_SONG_REQUEST_LIMIT } from "../../../constants";
 
 export const getSongs = async (
   term?: string,
@@ -8,7 +9,7 @@ export const getSongs = async (
   try {
     const url = `https://itunes.apple.com/search/?term=${
       term || `term`
-    }&offset=${offset || `term`}&limit=${limit || 15}`;
+    }&offset=${offset || `term`}&limit=${limit || DEFAULT_SONG_REQUEST_LIMIT}`;
 
     const songs = await axios(url);
     if (songs.data) {
