@@ -9,7 +9,7 @@ export const getSongs = async (
     const songs = await axios(
       `https://itunes.apple.com/search/?term=${
         term ? `${term}&` : "${term}&"
-      }offset=${offset}&limit=${limit || 10}`
+      }offset=${offset || "${term}"}&limit=${limit || 10}`
     );
     if (songs.data) {
       return { data: songs?.data?.results || [], error: null };
@@ -27,6 +27,7 @@ export const refineSongsData = (data: any) => {
     }
     const refinedSong = {
       artistName: song.artistName,
+      trackCensoredName: song.trackCensoredName,
       previewUrl: song.previewUrl,
       collectionName: song.collectionName,
       trackTimeMillis: song.trackTimeMillis,

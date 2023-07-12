@@ -1,5 +1,6 @@
 interface Song {
   artistName: string;
+  trackCensoredName: string
   previewUrl: string;
   collectionName: string;
   trackTimeMillis: number;

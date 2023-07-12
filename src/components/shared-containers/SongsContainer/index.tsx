@@ -47,13 +47,7 @@ const SongsContainer = () => {
 
     if (newSongs?.data !== null) {
       const refinedData = refineSongsData(newSongs?.data);
-      if (currentSong.previewUrl === "") {
-        dispatch(
-          setSerchedSong({
-            searchSongs: refinedData,
-          })
-        );
-      }
+      dispatch(setSerchedSong({ searchSongs: refinedData }));
     }
   };
 
@@ -99,7 +93,7 @@ const SongsContainer = () => {
 
   const renderContent = (songs: Song[]) => {
     return songs?.length ? (
-      searchSongs.map((song: Song, index: number) => {
+      songs.map((song: Song, index: number) => {
         return (
           <Box key={index} onClick={() => setSong(song)}>
             <CardMedia
@@ -112,7 +106,7 @@ const SongsContainer = () => {
                 borderRadius: "10px",
               }}
             />
-            <Typography>{song?.artistName.slice(0, 10)}</Typography>
+            <Typography>{song?.trackCensoredName?.slice(0, 10)}</Typography>
           </Box>
         );
       })
@@ -122,7 +116,9 @@ const SongsContainer = () => {
   };
 
   return (
-    <StyledRootBox>{renderContent(search ? songs : searchSongs)}</StyledRootBox>
+    <StyledRootBox>
+      {renderContent(!search ? songs : searchSongs)}
+    </StyledRootBox>
   );
 };
 

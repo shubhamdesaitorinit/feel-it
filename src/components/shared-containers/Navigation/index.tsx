@@ -12,7 +12,7 @@ import AccountCircle from "@mui/icons-material/AccountCircle";
 import MoreIcon from "@mui/icons-material/MoreVert";
 import { supabase } from "../../../supabase/Auth";
 import { useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { setSearch } from "../../../reducers/SongReducer";
 import {
@@ -24,7 +24,6 @@ import {
 } from "./style";
 
 const Navigation = () => {
-  const [search, setSearchVal] = useState("");
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -33,13 +32,6 @@ const Navigation = () => {
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
-
-  useEffect(() => {
-    if (search) {
-      dispatch(setSearch({ search: search }));
-    }
-    // eslint-disable-next-line
-  }, [search]);
 
   //Functions
   const handleProfileMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
@@ -61,6 +53,10 @@ const Navigation = () => {
 
   const handleMobileMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
     setMobileMoreAnchorEl(event.currentTarget);
+  };
+
+  const setSearchVal = (searchVal: string) => {
+    dispatch(setSearch({ search: searchVal }));
   };
 
   const renderMenu = (
@@ -142,7 +138,6 @@ const Navigation = () => {
             </SearchIconWrapper>
             <StyledInputBase
               placeholder="Search…"
-              value={search}
               inputProps={{ "aria-label": "search" }}
               onChange={(
                 e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>

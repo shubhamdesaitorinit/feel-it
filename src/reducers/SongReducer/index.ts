@@ -4,6 +4,7 @@ const initialState: SongStoreType = {
   songs: [],
   currentSong: {
     artistName: "",
+    trackCensoredName: "",
     previewUrl: "",
     collectionName: "",
     trackTimeMillis: 0,
