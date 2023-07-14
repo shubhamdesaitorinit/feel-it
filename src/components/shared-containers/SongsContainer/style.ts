@@ -9,4 +9,8 @@ export const StyledRootBox = styled(Box)`
   gap: 20px;
   align-items: center;
   justify-content: space-evenly;
+  position: fixed;
+  top: 66px;
+  bottom: 82px;
+  overflow: auto;
 `;

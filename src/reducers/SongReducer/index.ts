@@ -3,11 +3,8 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState: SongStoreType = {
   songs: [],
   currentSong: {
-    artistName: "",
-    trackCensoredName: "",
+    name: "",
     previewUrl: "",
-    collectionName: "",
-    trackTimeMillis: 0,
     artworkUrl100: "",
   },
   songAction: {

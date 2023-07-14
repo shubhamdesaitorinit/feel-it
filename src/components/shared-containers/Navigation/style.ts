@@ -4,7 +4,8 @@ import { styled } from "@mui/material/styles";
 export const StyledRootBox = styled(Box)`
   flex-grow: 1;
   z-index: 9999;
-  position: sticky;
+  position: fixed;
+  overflow: auto;
   width: 100%;
   top: 0px;
 `;
@@ -34,6 +35,7 @@ export const Search = styled("div")(({ theme }) => ({
 
 export const SearchIconWrapper = styled("div")(({ theme }) => ({
   padding: "16px",
+  cursor: "pointer !important",
   height: "100%",
   position: "absolute",
   pointerEvents: "none",

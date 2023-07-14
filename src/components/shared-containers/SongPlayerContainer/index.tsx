@@ -1,11 +1,18 @@
-import { Box, CardMedia, IconButton, Slider, Typography } from "@mui/material";
+import {
+  CardMedia,
+  IconButton,
+  Skeleton,
+  Slider,
+  Typography,
+} from "@mui/material";
 import { useState, useEffect, useRef } from "react";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import PauseIcon from "@mui/icons-material/Pause";
 import VolumeUpIcon from "@mui/icons-material/VolumeUp";
+import VolumeOffIcon from "@mui/icons-material/VolumeOff";
 import { useDispatch, useSelector } from "react-redux";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
-import { StyledRootBox } from "./style";
+import { StyledBox, StyledRootBox, StyledVolumeButtonBox } from "./style";
 import { setPlay } from "../../../reducers/SongReducer";
 
 const SongPlayerContainer = () => {
@@ -22,11 +29,11 @@ const SongPlayerContainer = () => {
   //Functions
   const togglePlayback = () => {
     if (audioRef.current) {
-      if (audioRef.current.paused || isPlaying) {
+      if (isPlaying) {
         audioRef.current.play().catch((error) => {
           console.log("Autoplay prevented:", error);
         });
-      } else if (!audioRef.current.paused || !isPlaying) {
+      } else if (!isPlaying) {
         audioRef.current.pause();
       }
     }
@@ -49,6 +56,10 @@ const SongPlayerContainer = () => {
     }
   };
 
+  const toggleVolume = () => {
+    setVolume((volume) => (volume <= 0 ? 50 : 0));
+  };
+
   useEffect(() => {
     if (firstRender) {
       setFirstRender(false);
@@ -56,32 +67,45 @@ const SongPlayerContainer = () => {
       togglePlayback();
     }
     // eslint-disable-next-line
-  }, [currentSong.previewUrl, isPlaying]);
+  }, [currentSong?.previewUrl, isPlaying]);
 
   return (
     <StyledRootBox>
-      <Box sx={{ display: "flex", width: "70%", gap: "10px" }}>
-        <CardMedia
-          component="img"
-          height="50px"
-          sx={{ width: "50px !important", borderRadius: "10px" }}
-          image={currentSong?.artworkUrl100}
-          alt="S"
-        ></CardMedia>
-        <Typography>
-          {currentSong?.trackCensoredName || currentSong?.artistName}
-        </Typography>
+      <StyledBox>
+        {currentSong?.artworkUrl100 ? (
+          <CardMedia
+            component="img"
+            sx={{
+              width: "50px !important",
+              height: "50px !important",
+              borderRadius: "10px",
+            }}
+            image={currentSong?.artworkUrl100}
+            alt="S"
+          ></CardMedia>
+        ) : (
+          <Skeleton height="86px" width="50px" />
+        )}
+        {currentSong?.name ? (
+          <Typography>{currentSong?.name}</Typography>
+        ) : (
+          <Skeleton height="40px" width="70px" />
+        )}
         <IconButton onClick={togglePlay} size={"large"}>
           {isPlaying ? <PauseIcon /> : <PlayArrowIcon />}
         </IconButton>
         <IconButton onClick={() => {}} size={"large"}>
           <FavoriteBorderIcon />
         </IconButton>
-      </Box>
-      <Box sx={{ display: "flex", width: "30%" }}>
-        <VolumeUpIcon />
+      </StyledBox>
+      <StyledVolumeButtonBox sx={{}}>
+        {volume <= 0 ? (
+          <VolumeOffIcon onClick={toggleVolume} />
+        ) : (
+          <VolumeUpIcon onClick={toggleVolume} />
+        )}
         <Slider
-          sx={{ width: "70%" }}
+          sx={{ width: "70%", color: "#0c4a6e" }}
           size="small"
           value={volume}
           onChange={(_, newValue) => {
@@ -91,9 +115,8 @@ const SongPlayerContainer = () => {
           max={100}
           aria-label="Volume slider"
         />
-        <Typography>{volume}</Typography>
-      </Box>
-      <audio ref={audioRef} src={currentSong?.previewUrl} />
+      </StyledVolumeButtonBox>
+      <audio ref={audioRef} src={currentSong?.previewUrl || ""} />
     </StyledRootBox>
   );
 };

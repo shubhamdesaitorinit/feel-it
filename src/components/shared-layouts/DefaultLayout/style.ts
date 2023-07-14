@@ -1,8 +1,8 @@
-import { Box } from "@mui/material";
+import { Container } from "@mui/material";
 import { styled } from "@mui/system";
 
-export const StyledRootBox = styled(Box)`
-  background-color: #e5e5e5;
+export const StyledContainer = styled(Container)`
+  width: 100%;
   position: fixed;
   top: 66px;
   bottom: 82px;

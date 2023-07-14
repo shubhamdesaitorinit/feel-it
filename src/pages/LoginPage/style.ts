@@ -5,7 +5,7 @@ export const StyledRootBox = styled(Box)`
   padding: 8px;
   width: 70%;
   height: 100%;
-  @media (max-width: 600px) {
+  @media (max-width: 900px) {
     display: none;
   }
 `;
@@ -15,8 +15,8 @@ export const StyledLoginBox = styled(Box)`
   display: flex;
   justify-content: space-around;
   align-items: center;
-  background-color: #c2410c;
-  @media (max-width: 600px) {
+  background-color: #164e63;
+  @media (max-width: 900px) {
     width: 100% !important;
   }
 `;

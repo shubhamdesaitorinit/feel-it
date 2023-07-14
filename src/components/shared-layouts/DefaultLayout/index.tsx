@@ -1,17 +1,18 @@
+import { Container } from "@mui/material";
 import { Outlet } from "react-router-dom";
 import Navigation from "../../shared-containers/Navigation";
-import { Container } from "@mui/material";
 import SongPlayerContainer from "../../shared-containers/SongPlayerContainer";
+import { StyledContainer } from "./style";
 
 const DefaultLayout = () => {
   return (
-    <>
+    <Container maxWidth={false} disableGutters>
       <Navigation />
-      <Container maxWidth={false} disableGutters>
+      <StyledContainer maxWidth={false} disableGutters>
         <Outlet />
-      </Container>
+      </StyledContainer>
       <SongPlayerContainer />
-    </>
+    </Container>
   );
 };
 

@@ -22,8 +22,10 @@ import {
   StyledInputBase,
   StyledRootBox,
 } from "./style";
+import { saveUserToken } from "../../../reducers/UserReducer";
 
 const Navigation = () => {
+  const [searchval, setSearchval] = useState("");
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -45,6 +47,12 @@ const Navigation = () => {
   const handleLogout = async () => {
     setAnchorEl(null);
     await supabase.auth.signOut();
+    dispatch(
+      saveUserToken({
+        token: "",
+        email: "",
+      })
+    );
     navigate("/");
   };
   const handleClose = () => {
@@ -55,8 +63,8 @@ const Navigation = () => {
     setMobileMoreAnchorEl(event.currentTarget);
   };
 
-  const setSearchVal = (searchVal: string) => {
-    dispatch(setSearch({ search: searchVal }));
+  const setSearchVal = () => {
+    dispatch(setSearch({ search: searchval }));
   };
 
   const renderMenu = (
@@ -87,6 +95,7 @@ const Navigation = () => {
         vertical: "top",
         horizontal: "right",
       }}
+      sx={{ zIndex: "9999" }}
       id="primary-search-account-menu-mobile"
       keepMounted
       transformOrigin={{
@@ -133,16 +142,20 @@ const Navigation = () => {
             Feel !t
           </Typography>
           <Search>
-            <SearchIconWrapper>
+            <SearchIconWrapper onClick={setSearchVal}>
               <SearchIcon />
             </SearchIconWrapper>
             <StyledInputBase
               placeholder="Search…"
+              value={searchval}
+              onChange={(e) => {
+                setSearchval(e.target.value);
+              }}
               inputProps={{ "aria-label": "search" }}
-              onChange={(
-                e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-              ) => {
-                setSearchVal(e?.target?.value);
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  setSearchVal();
+                }
               }}
             />
           </Search>
