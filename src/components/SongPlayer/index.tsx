@@ -13,9 +13,10 @@ import VolumeOffIcon from "@mui/icons-material/VolumeOff";
 import { useDispatch, useSelector } from "react-redux";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import { StyledBox, StyledRootBox, StyledVolumeButtonBox } from "./style";
-import { setPlay } from "../../../reducers/SongReducer";
+import { setPlay } from "../../reducers/SongReducer";
+import { sliceText } from "../../constants";
 
-const SongPlayerContainer = () => {
+const SongPlayer = () => {
   const dispatch = useDispatch();
   const {
     currentSong,
@@ -88,8 +89,7 @@ const SongPlayerContainer = () => {
         )}
         {currentSong?.name || currentSong?.artistName ? (
           <Typography>
-            {currentSong?.name?.slice(0, 10) ||
-              currentSong?.artistName?.slice(0, 10)}
+            {sliceText(currentSong?.name) || sliceText(currentSong?.artistName)}
           </Typography>
         ) : (
           <Skeleton height="40px" width="70px" />
@@ -97,11 +97,11 @@ const SongPlayerContainer = () => {
         <IconButton onClick={togglePlay} size={"large"}>
           {isPlaying ? <PauseIcon /> : <PlayArrowIcon />}
         </IconButton>
-        <IconButton onClick={() => {}} size={"large"}>
+        <IconButton size={"large"}>
           <FavoriteBorderIcon />
         </IconButton>
       </StyledBox>
-      <StyledVolumeButtonBox sx={{}}>
+      <StyledVolumeButtonBox>
         {volume <= 0 ? (
           <VolumeOffIcon onClick={toggleVolume} />
         ) : (
@@ -124,4 +124,4 @@ const SongPlayerContainer = () => {
   );
 };
 
-export default SongPlayerContainer;
+export default SongPlayer;

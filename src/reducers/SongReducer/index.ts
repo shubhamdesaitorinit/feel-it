@@ -23,7 +23,11 @@ const { actions, reducer: songReducer } = createSlice({
       state.currentSong = action.payload.currentSong;
     },
     setSongs(state, action) {
-      state.songs = action.payload.songs;
+      if (!action.payload.songs?.length) {
+        state.songs = action.payload.songs;
+      } else {
+        state.songs.push(...action.payload.songs);
+      }
     },
     setPlay(state, action) {
       state.songAction.isPlaying = action.payload.isPlaying;

@@ -1,6 +1,6 @@
 import { Box, CardMedia } from "@mui/material";
 import LoginImage from "../../assets/images/loginImage.jpeg";
-import LoginCardContainer from "../../components/shared-containers/LoginCardContainer";
+import LoginCard from "../../components/LoginCard";
 import { StyledLoginBox, StyledRootBox } from "./style";
 
 const LoginPage = () => {
@@ -18,7 +18,7 @@ const LoginPage = () => {
         ></CardMedia>
       </StyledRootBox>
       <StyledLoginBox>
-        <LoginCardContainer />
+        <LoginCard />
       </StyledLoginBox>
     </Box>
   );

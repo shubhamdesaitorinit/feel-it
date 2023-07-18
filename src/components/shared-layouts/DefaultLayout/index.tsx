@@ -1,7 +1,7 @@
 import { Container } from "@mui/material";
 import { Outlet } from "react-router-dom";
 import Navigation from "../../shared-containers/Navigation";
-import SongPlayerContainer from "../../shared-containers/SongPlayerContainer";
+import SongPlayer from "../../SongPlayer";
 import { StyledContainer } from "./style";
 
 const DefaultLayout = () => {
@@ -11,7 +11,7 @@ const DefaultLayout = () => {
       <StyledContainer maxWidth={false} disableGutters>
         <Outlet />
       </StyledContainer>
-      <SongPlayerContainer />
+      <SongPlayer />
     </Container>
   );
 };

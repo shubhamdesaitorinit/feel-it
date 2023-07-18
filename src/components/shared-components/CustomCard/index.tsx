@@ -2,9 +2,9 @@ import { CardMedia, IconButton, Typography } from "@mui/material";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import PauseIcon from "@mui/icons-material/Pause";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
-import { useDispatch, useSelector } from "react-redux";
-import { setCurrentSong, setPlay } from "../../../reducers/SongReducer";
+import { useSelector } from "react-redux";
 import { StyledDetailsBox, StyledRootBox } from "./style";
+import { sliceText } from "../../../constants";
 
 interface CardType {
   details: Song;
@@ -12,54 +12,40 @@ interface CardType {
 }
 
 const CustomCard = ({ details, onClick }: CardType) => {
-  const { previewUrl, image, name, artistName } = details;
-  const dispatch = useDispatch();
   const {
     currentSong,
     songAction: { isPlaying },
   } = useSelector((state: { song: SongStoreType }) => state.song);
 
-  //Funtions
-  const setSong = (song: Song) => {
-    if (currentSong?.previewUrl === song.previewUrl && isPlaying) {
-      dispatch(setPlay({ isPlaying: false }));
-    } else if (currentSong?.previewUrl === song.previewUrl && !isPlaying) {
-      dispatch(setPlay({ isPlaying: true }));
-    } else {
-      dispatch(setCurrentSong({ currentSong: song }));
-      dispatch(setPlay({ isPlaying: isPlaying ? isPlaying : !isPlaying }));
-    }
-  };
-
   return (
     <StyledRootBox
       border={`2px solid ${
-        currentSong?.previewUrl === previewUrl ? "#b91c1c" : "#6b7280"
+        currentSong?.previewUrl === details?.previewUrl ? "#b91c1c" : "#6b7280"
       }`}
       onClick={onClick}
     >
       <CardMedia
         component="img"
-        image={image}
+        image={details?.image}
         alt="S"
         sx={{
-          width: "300px !important",
-          height: "300px !important",
+          width: "300px",
+          height: "300px",
           borderRadius: "8px 8px 0 0",
         }}
       />
       <StyledDetailsBox>
         <Typography padding="5px">
-          {name?.slice(0, 10) || artistName?.slice(0, 10)}
+          {sliceText(details?.name || details?.artistName)}
         </Typography>
-        <IconButton onClick={() => setSong(details)} size={"large"}>
-          {isPlaying && currentSong?.previewUrl === previewUrl ? (
+        <IconButton size={"large"}>
+          {isPlaying && currentSong?.previewUrl === details?.previewUrl ? (
             <PauseIcon />
           ) : (
             <PlayArrowIcon />
           )}
         </IconButton>
-        <IconButton onClick={() => {}} size={"large"}>
+        <IconButton size={"large"}>
           <FavoriteBorderIcon />
         </IconButton>
       </StyledDetailsBox>

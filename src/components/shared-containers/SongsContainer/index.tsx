@@ -1,5 +1,5 @@
 import { Box, CardMedia, IconButton, Modal, Skeleton } from "@mui/material";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { DEFAULT_SONG_REQUEST_LIMIT } from "../../../constants";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
@@ -22,56 +22,32 @@ const SongsContainer = () => {
     songs,
     currentSong,
     songAction: { isPlaying, search },
-  } = useSelector((state: { song: SongStoreType }) => state.song);
+  } = useSelector(({ song }: { song: SongStoreType }) => song);
 
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
   const [scrollIsLoading, setScrollIsLoading] = useState(false);
-  const [page, setPage] = useState(1);
+  const [offset, setOffset] = useState<number>(1);
   const containerRef = useRef<HTMLDivElement>(null);
   const [isOpen, setIsOpen] = useState(false);
 
-  const getSongData = async () => {
-    setPage((prev) => prev + 15);
-    setIsLoading(true);
-    console.log("api called");
-    const limit = search ? 100 : DEFAULT_SONG_REQUEST_LIMIT;
-    const newSongs = await getSongs(search, page, limit);
-    setIsLoading(false);
-
-    if (newSongs?.data !== null) {
-      const refinedData = refineSongsData(newSongs?.data);
-      if (currentSong?.previewUrl === "") {
-        dispatch(
-          setCurrentSong({
-            currentSong: refinedData[0],
-          })
-        );
-      }
-      console.log(page === 1);
-      dispatch(
-        setSongs({
-          songs: page === 1 ? refinedData : [...songs, ...refinedData],
-        })
-      );
-    }
-  };
-
-  const handleScroll = async () => {
+  const handleScroll = useCallback(async () => {
     if (containerRef.current) {
       const scrollHeight = containerRef.current.scrollHeight;
       const scrollTop = containerRef.current.scrollTop;
       const clientHeight = containerRef.current.clientHeight;
-      const case1 = scrollHeight - scrollTop !== clientHeight;
+      const isNotScrolledToBottom = scrollHeight - scrollTop !== clientHeight;
 
-      if (case1 || isLoading || scrollIsLoading || search) {
+      if (isNotScrolledToBottom || isLoading || scrollIsLoading || search) {
         return;
       }
       setScrollIsLoading(true);
-      await getSongData();
+      setOffset((prev) => {
+        return (prev += 15);
+      });
       setScrollIsLoading(false);
     }
-  };
+  }, [search, offset]);
 
   useEffect(() => {
     const containerDivRef = containerRef.current;
@@ -84,20 +60,17 @@ const SongsContainer = () => {
       }
     };
     // eslint-disable-next-line
-  }, [isLoading]);
+  }, [isLoading, offset]);
 
   const handleClose = () => {
     setIsOpen(false);
   };
 
   const setSong = (song: Song) => {
-    if (currentSong?.previewUrl === song?.previewUrl && isPlaying) {
-      dispatch(setPlay({ isPlaying: false }));
-    } else if (currentSong?.previewUrl === song?.previewUrl && !isPlaying) {
-      dispatch(setPlay({ isPlaying: true }));
+    if (currentSong?.previewUrl === song?.previewUrl) {
+      dispatch(setPlay({ isPlaying: isPlaying ? false : true }));
     } else {
       dispatch(setCurrentSong({ currentSong: song }));
-      dispatch(setPlay({ isPlaying: isPlaying ? isPlaying : !isPlaying }));
     }
   };
 
@@ -109,25 +82,44 @@ const SongsContainer = () => {
   const handlePrevButtonClick = () => {
     const isPrevSong = (song: Song) =>
       song?.previewUrl === currentSong?.previewUrl;
-    const currentSongIndex = songs.findIndex(isPrevSong);
+    const currentSongIndex = songs?.findIndex(isPrevSong);
     const prevSong =
-      songs[currentSongIndex > 0 ? currentSongIndex - 1 : songs.length - 1];
+      songs[currentSongIndex > 0 ? currentSongIndex - 1 : songs?.length - 1];
     setSong(prevSong);
   };
 
   const handleNextButtonClick = () => {
     const isNextSong = (song: Song) =>
       song?.previewUrl === currentSong?.previewUrl;
-    const currentSongIndex = songs.findIndex(isNextSong);
+    const currentSongIndex = songs?.findIndex(isNextSong);
     const prevSong =
       songs[currentSongIndex < songs.length - 1 ? currentSongIndex + 1 : 0];
     setSong(prevSong);
   };
 
   useEffect(() => {
-    getSongData();
+    setIsLoading(true);
+    (async () => {
+      const newSongs = await getSongs(
+        search,
+        offset,
+        search ? 100 : DEFAULT_SONG_REQUEST_LIMIT
+      );
+      setIsLoading(false);
+
+      if (newSongs?.data) {
+        const refinedData = refineSongsData(newSongs?.data);
+        if (!currentSong?.previewUrl && refinedData?.length) {
+          dispatch(setCurrentSong({ currentSong: refinedData[0] }));
+        }
+
+        dispatch(setSongs({ songs: refinedData }));
+      }
+    })();
+    setIsLoading(false);
+
     // eslint-disable-next-line
-  }, [search]);
+  }, [search, offset]);
 
   const skeletonArray: number[] = [];
   for (let i = 0; i < 10; i++) {

@@ -6,10 +6,11 @@ export const getSongs = async (
   offset?: number,
   limit?: number
 ) => {
+  console.log("innercall", offset);
   try {
     const url = `https://itunes.apple.com/search/?term=${
       search || `term`
-    }&offset=${offset || `offset`}&limit=${
+    }&offset=${search ? "" : offset}&limit=${
       limit || DEFAULT_SONG_REQUEST_LIMIT
     }`;
 
@@ -23,21 +24,23 @@ export const getSongs = async (
 };
 
 export const refineSongsData = (data: any) => {
-  const songsList: Song[] = [];
   if (!data?.length) return [];
+
+  const songsList: Song[] = [];
+
   for (const song of data) {
-    if (!song.previewUrl) {
+    if (!song?.previewUrl) {
       continue;
     }
     const refinedSong = {
-      name: song.collectionName,
-      artistName: song.artistName,
-      previewUrl: song.previewUrl,
-      image: song.artworkUrl100 || "",
-      artistId: song.artistId,
+      name: song?.collectionName || "",
+      artistName: song?.artistName || "",
+      previewUrl: song?.previewUrl || "",
+      image: song?.artworkUrl100 || "",
+      artistId: song?.artistId || "",
     };
+
     songsList.push(refinedSong);
   }
-  // console.log({ songsList });
   return songsList;
 };

@@ -1,9 +1,9 @@
-import { supabase } from "../../../supabase/Auth";
 import { StyledRootBox } from "./style";
 import { Auth } from "@supabase/auth-ui-react";
 import { ThemeSupa } from "@supabase/auth-ui-shared";
+import { supabase } from "../../supabase/Auth";
 
-const LoginCardContainer = () => {
+const LoginCard = () => {
   return (
     <StyledRootBox>
       <Auth
@@ -14,4 +14,4 @@ const LoginCardContainer = () => {
     </StyledRootBox>
   );
 };
-export default LoginCardContainer;
+export default LoginCard;

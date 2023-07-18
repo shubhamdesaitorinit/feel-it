@@ -85,6 +85,7 @@ const Navigation = () => {
     }
     setSearchVal(inputVal);
   }, 1000);
+  
   const renderMenu = (
     <Menu
       sx={{ zIndex: "9999" }}
