@@ -47,7 +47,7 @@ const SongsContainer = () => {
       });
       setScrollIsLoading(false);
     }
-  }, [search, offset]);
+  }, [search, isLoading, scrollIsLoading]);
 
   useEffect(() => {
     const containerDivRef = containerRef.current;
