@@ -72,7 +72,7 @@ const SongPlayerContainer = () => {
   return (
     <StyledRootBox>
       <StyledBox>
-        {currentSong?.artworkUrl100 ? (
+        {currentSong?.image ? (
           <CardMedia
             component="img"
             sx={{
@@ -80,14 +80,17 @@ const SongPlayerContainer = () => {
               height: "50px !important",
               borderRadius: "10px",
             }}
-            image={currentSong?.artworkUrl100}
+            image={currentSong?.image}
             alt="S"
           ></CardMedia>
         ) : (
           <Skeleton height="86px" width="50px" />
         )}
-        {currentSong?.name ? (
-          <Typography>{currentSong?.name}</Typography>
+        {currentSong?.name || currentSong?.artistName ? (
+          <Typography>
+            {currentSong?.name?.slice(0, 10) ||
+              currentSong?.artistName?.slice(0, 10)}
+          </Typography>
         ) : (
           <Skeleton height="40px" width="70px" />
         )}

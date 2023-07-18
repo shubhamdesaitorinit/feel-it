@@ -5,13 +5,14 @@ const initialState: SongStoreType = {
   currentSong: {
     name: "",
     previewUrl: "",
-    artworkUrl100: "",
+    image: "",
+    artistName: "",
+    artistId: "",
   },
   songAction: {
     search: "",
     isPlaying: false,
   },
-  searchSongs: [],
 };
 
 const { actions, reducer: songReducer } = createSlice({
@@ -22,13 +23,10 @@ const { actions, reducer: songReducer } = createSlice({
       state.currentSong = action.payload.currentSong;
     },
     setSongs(state, action) {
-      state.songs.push(...action.payload.songs);
+      state.songs = action.payload.songs;
     },
     setPlay(state, action) {
       state.songAction.isPlaying = action.payload.isPlaying;
-    },
-    setSerchedSong(state, action) {
-      state.searchSongs = action.payload.searchSongs;
     },
     setSearch(state, action) {
       state.songAction.search = action.payload.search;
@@ -36,7 +34,6 @@ const { actions, reducer: songReducer } = createSlice({
   },
 });
 
-export const { setCurrentSong, setSongs, setPlay, setSerchedSong, setSearch } =
-  actions;
+export const { setCurrentSong, setSongs, setPlay, setSearch } = actions;
 
 export default songReducer;

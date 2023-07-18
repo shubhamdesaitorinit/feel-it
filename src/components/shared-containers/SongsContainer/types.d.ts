@@ -1,7 +1,9 @@
 interface Song {
   name: string;
   previewUrl: string;
-  artworkUrl100: string;
+  image: string;
+  artistName: string;
+  artistId: string;
 }
 
 interface SongStoreType {
@@ -11,7 +13,6 @@ interface SongStoreType {
     search: string;
     isPlaying: boolean;
   };
-  searchSongs: Song[];
 }
 
 interface SongsType {

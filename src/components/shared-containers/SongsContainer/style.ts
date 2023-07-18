@@ -14,3 +14,16 @@ export const StyledRootBox = styled(Box)`
   bottom: 82px;
   overflow: auto;
 `;
+
+export const StyledModelBox = styled(Box)`
+  width: 350px;
+  margin: 74px auto 8px auto !important;
+  @media (min-width: 600px) {
+  }
+  background-color: #ffffff;
+  border-radius: 8px;
+  & .MuiStack-root {
+    overflow: hidden !important;
+    padding-top: 0px !important;
+  }
+`;

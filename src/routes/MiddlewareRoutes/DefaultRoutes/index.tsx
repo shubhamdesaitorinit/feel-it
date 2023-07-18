@@ -24,7 +24,6 @@ const DefaultRouteMiddleware = () => {
       );
     }
   };
-  console.log({ token });
 
   useEffect(() => {
     getSession();
@@ -33,10 +32,8 @@ const DefaultRouteMiddleware = () => {
 
   if (token) {
     return <AppRoutes />;
-  } else if (!token) {
-    return <AuthRoutes />;
   } else {
-    return <></>;
+    return <AuthRoutes />;
   }
 };
 

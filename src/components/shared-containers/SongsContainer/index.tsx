@@ -1,32 +1,27 @@
-import {
-  Box,
-  CardMedia,
-  IconButton,
-  Skeleton,
-  Typography,
-} from "@mui/material";
+import { Box, CardMedia, IconButton, Modal, Skeleton } from "@mui/material";
 import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { DEFAULT_SONG_REQUEST_LIMIT } from "../../../constants";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
-import PauseIcon from "@mui/icons-material/Pause";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import PauseIcon from "@mui/icons-material/Pause";
 
 import {
   setCurrentSong,
   setPlay,
-  setSerchedSong,
   setSongs,
 } from "../../../reducers/SongReducer";
 import { getSongs, refineSongsData } from "./helper";
-import { StyledRootBox } from "./style";
+import { StyledModelBox, StyledRootBox } from "./style";
+import CustomCard from "../../shared-components/CustomCard";
+import SkipNextIcon from "@mui/icons-material/SkipNext";
+import SkipPreviousIcon from "@mui/icons-material/SkipPrevious";
 
 const SongsContainer = () => {
   const {
     songs,
     currentSong,
     songAction: { isPlaying, search },
-    searchSongs,
   } = useSelector((state: { song: SongStoreType }) => state.song);
 
   const dispatch = useDispatch();
@@ -34,9 +29,15 @@ const SongsContainer = () => {
   const [scrollIsLoading, setScrollIsLoading] = useState(false);
   const [page, setPage] = useState(1);
   const containerRef = useRef<HTMLDivElement>(null);
+  const [isOpen, setIsOpen] = useState(false);
 
   const getSongData = async () => {
-    const newSongs = await getSongs(search, page, DEFAULT_SONG_REQUEST_LIMIT);
+    setPage((prev) => prev + 15);
+    setIsLoading(true);
+    console.log("api called");
+    const limit = search ? 100 : DEFAULT_SONG_REQUEST_LIMIT;
+    const newSongs = await getSongs(search, page, limit);
+    setIsLoading(false);
 
     if (newSongs?.data !== null) {
       const refinedData = refineSongsData(newSongs?.data);
@@ -47,18 +48,12 @@ const SongsContainer = () => {
           })
         );
       }
-      dispatch(setSongs({ songs: refinedData }));
-    }
-  };
-
-  const getSearchSong = async () => {
-    setIsLoading(true);
-    const newSongs = await getSongs(search);
-    setIsLoading(false);
-
-    if (newSongs?.data !== null && newSongs?.data !== undefined) {
-      const refinedData = refineSongsData(newSongs?.data);
-      dispatch(setSerchedSong({ searchSongs: refinedData }));
+      console.log(page === 1);
+      dispatch(
+        setSongs({
+          songs: page === 1 ? refinedData : [...songs, ...refinedData],
+        })
+      );
     }
   };
 
@@ -67,26 +62,14 @@ const SongsContainer = () => {
       const scrollHeight = containerRef.current.scrollHeight;
       const scrollTop = containerRef.current.scrollTop;
       const clientHeight = containerRef.current.clientHeight;
-      console.log(scrollHeight - scrollTop, clientHeight);
+      const case1 = scrollHeight - scrollTop !== clientHeight;
 
-      if (scrollHeight - scrollTop !== clientHeight || isLoading) {
+      if (case1 || isLoading || scrollIsLoading || search) {
         return;
       }
-      setPage((prev) => prev + 1);
       setScrollIsLoading(true);
       await getSongData();
       setScrollIsLoading(false);
-    }
-  };
-
-  const setSong = (song: Song) => {
-    if (currentSong?.previewUrl === song.previewUrl && isPlaying) {
-      dispatch(setPlay({ isPlaying: false }));
-    } else if (currentSong?.previewUrl === song.previewUrl && !isPlaying) {
-      dispatch(setPlay({ isPlaying: true }));
-    } else {
-      dispatch(setCurrentSong({ currentSong: song }));
-      dispatch(setPlay({ isPlaying: isPlaying ? isPlaying : !isPlaying }));
     }
   };
 
@@ -103,27 +86,53 @@ const SongsContainer = () => {
     // eslint-disable-next-line
   }, [isLoading]);
 
-  useEffect(() => {
-    if (search) {
-      getSearchSong();
+  const handleClose = () => {
+    setIsOpen(false);
+  };
+
+  const setSong = (song: Song) => {
+    if (currentSong?.previewUrl === song?.previewUrl && isPlaying) {
+      dispatch(setPlay({ isPlaying: false }));
+    } else if (currentSong?.previewUrl === song?.previewUrl && !isPlaying) {
+      dispatch(setPlay({ isPlaying: true }));
+    } else {
+      dispatch(setCurrentSong({ currentSong: song }));
+      dispatch(setPlay({ isPlaying: isPlaying ? isPlaying : !isPlaying }));
     }
-    // eslint-disable-next-line
-  }, [search]);
+  };
+
+  const handleClick = (song: Song) => {
+    setIsOpen(true);
+    setSong(song);
+  };
+
+  const handlePrevButtonClick = () => {
+    const isPrevSong = (song: Song) =>
+      song?.previewUrl === currentSong?.previewUrl;
+    const currentSongIndex = songs.findIndex(isPrevSong);
+    const prevSong =
+      songs[currentSongIndex > 0 ? currentSongIndex - 1 : songs.length - 1];
+    setSong(prevSong);
+  };
+
+  const handleNextButtonClick = () => {
+    const isNextSong = (song: Song) =>
+      song?.previewUrl === currentSong?.previewUrl;
+    const currentSongIndex = songs.findIndex(isNextSong);
+    const prevSong =
+      songs[currentSongIndex < songs.length - 1 ? currentSongIndex + 1 : 0];
+    setSong(prevSong);
+  };
 
   useEffect(() => {
-    (async () => {
-      setIsLoading(true);
-      await getSongData();
-      setIsLoading(false);
-    })();
+    getSongData();
     // eslint-disable-next-line
-  }, []);
+  }, [search]);
 
   const skeletonArray: number[] = [];
   for (let i = 0; i < 10; i++) {
     skeletonArray.push(i);
   }
-  console.log({ skeletonArray });
 
   const renderSkelton = () => {
     return skeletonArray.map((num: number) => {
@@ -153,44 +162,13 @@ const SongsContainer = () => {
     return !isLoading
       ? songs?.map((song: Song, index: number) => {
           return (
-            <Box
+            <CustomCard
               key={index}
-              sx={{
-                border:
-                  currentSong?.previewUrl === song.previewUrl
-                    ? "2px solid #b91c1c"
-                    : "2px solid #172554",
-                borderRadius: "10px",
+              details={song}
+              onClick={() => {
+                handleClick(song);
               }}
-            >
-              <CardMedia
-                component="img"
-                image={song?.artworkUrl100}
-                alt="S"
-                sx={{
-                  width: "300px !important",
-                  height: "300px !important",
-                  borderRadius: "8px 8px 0 0",
-                }}
-              />
-              <Box
-                sx={{ backgroundColor: "#a8a29e", borderRadius: "0 0 8px 8px" }}
-              >
-                <Typography padding="5px">
-                  {song?.name?.slice(0, 10)}
-                </Typography>
-                <IconButton onClick={() => setSong(song)} size={"large"}>
-                  {isPlaying && currentSong?.previewUrl === song?.previewUrl ? (
-                    <PauseIcon />
-                  ) : (
-                    <PlayArrowIcon />
-                  )}
-                </IconButton>
-                <IconButton onClick={() => {}} size={"large"}>
-                  <FavoriteBorderIcon />
-                </IconButton>
-              </Box>
-            </Box>
+            />
           );
         })
       : renderSkelton();
@@ -198,7 +176,43 @@ const SongsContainer = () => {
 
   return (
     <StyledRootBox ref={containerRef}>
-      {renderContent(!search ? songs : searchSongs)}
+      <Modal
+        open={isOpen}
+        onClose={handleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <StyledModelBox>
+          <CardMedia
+            component="img"
+            image={currentSong?.image}
+            alt="S"
+            sx={{
+              width: "350px !important",
+              height: "350px !important",
+              borderRadius: "8px 8px 0 0",
+            }}
+          />
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <IconButton onClick={handlePrevButtonClick}>
+              <SkipPreviousIcon />
+            </IconButton>
+            <IconButton onClick={() => setSong(currentSong)} size={"large"}>
+              {isPlaying ? <PauseIcon /> : <PlayArrowIcon />}
+            </IconButton>
+            <IconButton onClick={handleNextButtonClick}>
+              <SkipNextIcon />
+            </IconButton>
+          </Box>
+        </StyledModelBox>
+      </Modal>
+      {renderContent(songs)}
       {scrollIsLoading ? renderSkelton() : <></>}
     </StyledRootBox>
   );

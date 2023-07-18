@@ -12,9 +12,9 @@ import AccountCircle from "@mui/icons-material/AccountCircle";
 import MoreIcon from "@mui/icons-material/MoreVert";
 import { supabase } from "../../../supabase/Auth";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useDispatch } from "react-redux";
-import { setSearch } from "../../../reducers/SongReducer";
+import { setSearch, setSongs } from "../../../reducers/SongReducer";
 import {
   Search,
   SearchIconWrapper,
@@ -24,8 +24,20 @@ import {
 } from "./style";
 import { saveUserToken } from "../../../reducers/UserReducer";
 
+export const debounce = <T extends (...args: any[]) => any>(
+  func: T,
+  wait: number
+) => {
+  let timeout: ReturnType<typeof setTimeout>;
+
+  return (...args: Parameters<T>): void => {
+    clearTimeout(timeout);
+    timeout = setTimeout(() => func(...args), wait);
+  };
+};
+
 const Navigation = () => {
-  const [searchval, setSearchval] = useState("");
+  const inputRef = useRef<HTMLInputElement>(null);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -63,10 +75,16 @@ const Navigation = () => {
     setMobileMoreAnchorEl(event.currentTarget);
   };
 
-  const setSearchVal = () => {
-    dispatch(setSearch({ search: searchval }));
+  const setSearchVal = (searchInputVal: string) => {
+    dispatch(setSearch({ search: searchInputVal }));
+    dispatch(setSongs({ songs: [] }));
   };
 
+  const handleSearch = debounce((inputVal: string) => {
+    if (inputRef.current !== null) {
+    }
+    setSearchVal(inputVal);
+  }, 1000);
   const renderMenu = (
     <Menu
       sx={{ zIndex: "9999" }}
@@ -142,21 +160,16 @@ const Navigation = () => {
             Feel !t
           </Typography>
           <Search>
-            <SearchIconWrapper onClick={setSearchVal}>
+            <SearchIconWrapper>
               <SearchIcon />
             </SearchIconWrapper>
             <StyledInputBase
               placeholder="Search…"
-              value={searchval}
+              defaultValue={""}
               onChange={(e) => {
-                setSearchval(e.target.value);
+                handleSearch(e?.target?.value);
               }}
               inputProps={{ "aria-label": "search" }}
-              onKeyDown={(e) => {
-                if (e.key === "Enter") {
-                  setSearchVal();
-                }
-              }}
             />
           </Search>
           <Box sx={{ flexGrow: 1 }} />
