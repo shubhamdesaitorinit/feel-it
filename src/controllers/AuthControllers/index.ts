@@ -1,4 +1,4 @@
-import { supabase } from "../../supabase/Auth";
+import { supabase } from "@supabaseClient/Auth";
 
 export const getAuthSession = async () => {
   const {

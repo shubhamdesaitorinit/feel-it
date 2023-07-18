@@ -10,11 +10,11 @@ import MenuIcon from "@mui/icons-material/Menu";
 import SearchIcon from "@mui/icons-material/Search";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import MoreIcon from "@mui/icons-material/MoreVert";
-import { supabase } from "../../../supabase/Auth";
+import { supabase } from "@supabaseClient/Auth";
 import { useNavigate } from "react-router-dom";
 import { useRef, useState } from "react";
 import { useDispatch } from "react-redux";
-import { setSearch, setSongs } from "../../../reducers/SongReducer";
+import { setSearch, setSongs } from "@reducers/SongReducer";
 import {
   Search,
   SearchIconWrapper,
@@ -22,7 +22,7 @@ import {
   StyledInputBase,
   StyledRootBox,
 } from "./style";
-import { saveUserToken } from "../../../reducers/UserReducer";
+import { saveUserToken } from "@reducers/UserReducer";
 
 export const debounce = <T extends (...args: any[]) => any>(
   func: T,
@@ -85,7 +85,7 @@ const Navigation = () => {
     }
     setSearchVal(inputVal);
   }, 1000);
-  
+
   const renderMenu = (
     <Menu
       sx={{ zIndex: "9999" }}

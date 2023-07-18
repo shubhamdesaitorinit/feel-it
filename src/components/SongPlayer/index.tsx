@@ -1,4 +1,5 @@
 import {
+  Box,
   CardMedia,
   IconButton,
   Skeleton,
@@ -13,18 +14,21 @@ import VolumeOffIcon from "@mui/icons-material/VolumeOff";
 import { useDispatch, useSelector } from "react-redux";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import { StyledBox, StyledRootBox, StyledVolumeButtonBox } from "./style";
-import { setPlay } from "../../reducers/SongReducer";
-import { sliceText } from "../../constants";
-
+import { setCurrentSong, setPlay } from "@reducers/SongReducer";
+import { sliceText } from "@constants/index";
+import SkipNextIcon from "@mui/icons-material/SkipNext";
+import SkipPreviousIcon from "@mui/icons-material/SkipPrevious";
 const SongPlayer = () => {
   const dispatch = useDispatch();
   const {
+    songs,
     currentSong,
     songAction: { isPlaying },
   } = useSelector((state: { song: SongStoreType }) => state.song);
   const audioRef = useRef<HTMLAudioElement>(null);
 
   const [volume, setVolume] = useState(50);
+  const [trackTime, setTrackTime] = useState(0);
   const [firstRender, setFirstRender] = useState(true);
 
   //Functions
@@ -61,6 +65,26 @@ const SongPlayer = () => {
     setVolume((volume) => (volume <= 0 ? 50 : 0));
   };
 
+  const handlePrevButtonClick = () => {
+    const isPrevSong = (song: Song) =>
+      song?.previewUrl === currentSong?.previewUrl;
+    const currentSongIndex = songs?.findIndex(isPrevSong);
+    const prevSong =
+      songs[currentSongIndex > 0 ? currentSongIndex - 1 : songs?.length - 1];
+    dispatch(setCurrentSong({ currentSong: prevSong }));
+    // setSong(prevSong);
+  };
+
+  const handleNextButtonClick = () => {
+    const isNextSong = (song: Song) =>
+      song?.previewUrl === currentSong?.previewUrl;
+    const currentSongIndex = songs?.findIndex(isNextSong);
+    const prevSong =
+      songs[currentSongIndex < songs.length - 1 ? currentSongIndex + 1 : 0];
+    dispatch(setCurrentSong({ currentSong: prevSong }));
+    // setSong(prevSong);
+  };
+
   useEffect(() => {
     if (firstRender) {
       setFirstRender(false);
@@ -94,12 +118,40 @@ const SongPlayer = () => {
         ) : (
           <Skeleton height="40px" width="70px" />
         )}
-        <IconButton onClick={togglePlay} size={"large"}>
-          {isPlaying ? <PauseIcon /> : <PlayArrowIcon />}
-        </IconButton>
+
         <IconButton size={"large"}>
           <FavoriteBorderIcon />
         </IconButton>
+        <Box sx={{ display: "flex", flexDirection: "column", width: "50%" }}>
+          <Slider
+            sx={{ width: "100%", color: "#0c4a6e" }}
+            size="small"
+            value={Number(trackTime)}
+            onChange={(_, newValue) => {
+              audioRef.current!.currentTime = Number(newValue);
+            }}
+            min={0}
+            max={Number(audioRef.current?.duration) || 0}
+            aria-label="track slider"
+          />
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <IconButton onClick={handlePrevButtonClick}>
+              <SkipPreviousIcon />
+            </IconButton>
+            <IconButton onClick={togglePlay} size={"large"}>
+              {isPlaying ? <PauseIcon /> : <PlayArrowIcon />}
+            </IconButton>
+            <IconButton onClick={handleNextButtonClick}>
+              <SkipNextIcon />
+            </IconButton>
+          </Box>
+        </Box>
       </StyledBox>
       <StyledVolumeButtonBox>
         {volume <= 0 ? (
@@ -119,7 +171,16 @@ const SongPlayer = () => {
           aria-label="Volume slider"
         />
       </StyledVolumeButtonBox>
-      <audio ref={audioRef} src={currentSong?.previewUrl || ""} />
+      <audio
+        ref={audioRef}
+        src={currentSong?.previewUrl || ""}
+        onTimeUpdate={() => {
+          if (audioRef.current) {
+            setTrackTime(Number(audioRef.current?.currentTime));
+          }
+          console.log("Current Time ====> ", audioRef.current?.currentTime);
+        }}
+      />
     </StyledRootBox>
   );
 };

@@ -4,7 +4,7 @@ import PauseIcon from "@mui/icons-material/Pause";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import { useSelector } from "react-redux";
 import { StyledDetailsBox, StyledRootBox } from "./style";
-import { sliceText } from "../../../constants";
+import { sliceText } from "@constants/index";
 
 interface CardType {
   details: Song;

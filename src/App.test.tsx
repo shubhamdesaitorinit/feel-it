@@ -1,6 +1,6 @@
 import React from "react";
 import { render, screen } from "@testing-library/react";
-import DefaultLayout from "./components/shared-layouts/DefaultLayout";
+import DefaultLayout from "@shared-layouts/DefaultLayout";
 
 test("renders learn react link", () => {
   render(<DefaultLayout />);

@@ -4,8 +4,8 @@ import { RouterProvider } from "react-router-dom";
 import "./index.css";
 import reportWebVitals from "./reportWebVitals";
 import { Provider } from "react-redux";
-import store from "./ducks/store";
-import router from "./routes";
+import store from "@ducks/store";
+import router from "@routes/index";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement

@@ -1,10 +1,10 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { saveUserToken } from "../../../reducers/UserReducer";
+import { saveUserToken } from "@reducers/UserReducer";
 import Cookies from "js-cookie";
-import AppRoutes from "../../AppRoutes";
-import AuthRoutes from "../../AuthRoutes";
-import { getAuthSession } from "../../../controllers/AuthControllers";
+import AppRoutes from "@routes/AppRoutes";
+import AuthRoutes from "@routes/AuthRoutes";
+import { getAuthSession } from "@controllers/AuthControllers";
 
 const DefaultRouteMiddleware = () => {
   const dispatch = useDispatch();

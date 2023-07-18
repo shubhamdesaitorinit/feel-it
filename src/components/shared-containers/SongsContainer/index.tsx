@@ -6,14 +6,10 @@ import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import PauseIcon from "@mui/icons-material/Pause";
 
-import {
-  setCurrentSong,
-  setPlay,
-  setSongs,
-} from "../../../reducers/SongReducer";
+import { setCurrentSong, setPlay, setSongs } from "@reducers/SongReducer";
 import { getSongs, refineSongsData } from "./helper";
 import { StyledModelBox, StyledRootBox } from "./style";
-import CustomCard from "../../shared-components/CustomCard";
+import CustomCard from "@shared-components/CustomCard";
 import SkipNextIcon from "@mui/icons-material/SkipNext";
 import SkipPreviousIcon from "@mui/icons-material/SkipPrevious";
 

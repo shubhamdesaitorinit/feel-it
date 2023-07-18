@@ -6,6 +6,8 @@
       "dom.iterable",
       "esnext"
     ],
+    "typeRoots": ["node_modules/@types", "src/types"],
+    "baseUrl": ".",
     "allowJs": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
@@ -18,7 +20,30 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "jsx": "react-jsx"
+    "jsx": "react-jsx",
+    "paths": {
+      "@src/*": ["src/*"],
+      "@pages/*": ["src/pages/*"],
+      "@components/*": ["src/components/*"],
+      "@common/*": ["src/common/*"],
+      "@utils/*": ["src/utils/*"],
+      "@images/*": ["src/assets/images/*"],
+      "@icons/*": ["src/assets/icons/*"],
+      "@fonts/*": ["src/assets/fonts/*"],
+      "@shared-ui-components/*": ["src/components/shared-ui-components/*"],
+      "@constants/*": ["src/constants/*"],
+      "@shared-layouts/*": ["src/components/shared-layouts/*"],
+      "@shared-containers/*": ["src/components/shared-containers/*"],
+      "@shared-components/*": ["src/components/shared-components/*"],
+      "@hooks/*": ["src/hooks/*"],
+      "@context/*": ["src/context/*"],
+      "@assets/*": ["src/assets/*"],
+       "@controllers/*": ["src/controllers/*"],
+       "@routes/*": ["src/routes/*"],
+       "@supabaseClient/*": ["src/supabaseClient/*"],
+       "@reducers/*": ["src/reducers/*"],
+        "@ducks/*": ["src/ducks/*"],
+    }
   },
   "include": [
     "src"

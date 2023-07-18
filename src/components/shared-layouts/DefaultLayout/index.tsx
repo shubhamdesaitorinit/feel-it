@@ -1,7 +1,7 @@
 import { Container } from "@mui/material";
 import { Outlet } from "react-router-dom";
-import Navigation from "../../shared-containers/Navigation";
-import SongPlayer from "../../SongPlayer";
+import Navigation from "@shared-containers/Navigation";
+import SongPlayer from "@components/SongPlayer";
 import { StyledContainer } from "./style";
 
 const DefaultLayout = () => {

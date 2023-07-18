@@ -1,5 +1,5 @@
 import axios from "axios";
-import { DEFAULT_SONG_REQUEST_LIMIT } from "../../../constants";
+import { DEFAULT_SONG_REQUEST_LIMIT } from "@constants/index";
 
 export const getSongs = async (
   search?: string,

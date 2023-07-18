@@ -1,6 +1,6 @@
 import { Box, CardMedia } from "@mui/material";
-import LoginImage from "../../assets/images/loginImage.jpeg";
-import LoginCard from "../../components/LoginCard";
+import LoginImage from "@images/loginImage.jpeg";
+import LoginCard from "@components/LoginCard";
 import { StyledLoginBox, StyledRootBox } from "./style";
 
 const LoginPage = () => {

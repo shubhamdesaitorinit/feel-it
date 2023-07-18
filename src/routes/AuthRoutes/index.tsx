@@ -1,6 +1,6 @@
 import { useRoutes } from "react-router-dom";
-import LoginPage from "../../pages/LoginPage";
-import NotFound from "../../pages/NotFound";
+import LoginPage from "@pages/LoginPage";
+import NotFound from "@pages/NotFound";
 
 const AuthRoutes = () => {
   let element = useRoutes([

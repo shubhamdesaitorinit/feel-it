@@ -1,4 +1,4 @@
-import SongsContainer from "../../components/shared-containers/SongsContainer";
+import SongsContainer from "@shared-containers/SongsContainer";
 import { StyledRootBox } from "./style";
 
 const HomePage = () => {

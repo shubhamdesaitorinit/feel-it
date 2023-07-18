@@ -1,7 +1,7 @@
 import { StyledRootBox } from "./style";
 import { Auth } from "@supabase/auth-ui-react";
 import { ThemeSupa } from "@supabase/auth-ui-shared";
-import { supabase } from "../../supabase/Auth";
+import { supabase } from "@supabaseClient/Auth";
 
 const LoginCard = () => {
   return (

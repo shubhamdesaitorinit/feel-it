@@ -1,7 +1,7 @@
 import { useRoutes } from "react-router-dom";
-import DefaultLayout from "../../components/shared-layouts/DefaultLayout";
-import HomePage from "../../pages/HomePage";
-import NotFound from "../../pages/NotFound";
+import DefaultLayout from "@shared-layouts/DefaultLayout";
+import HomePage from "@pages/HomePage";
+import NotFound from "@pages/NotFound";
 
 const AppRoutes = () => {
   let element = useRoutes([
