@@ -12,7 +12,6 @@ import PauseIcon from "@mui/icons-material/Pause";
 import VolumeUpIcon from "@mui/icons-material/VolumeUp";
 import VolumeOffIcon from "@mui/icons-material/VolumeOff";
 import { useDispatch, useSelector } from "react-redux";
-import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import { StyledBox, StyledRootBox, StyledVolumeButtonBox } from "./style";
 import { setCurrentSong, setPlay } from "@reducers/SongReducer";
 import { sliceText } from "@constants/index";
@@ -119,15 +118,13 @@ const SongPlayer = () => {
           <Skeleton height="40px" width="70px" />
         )}
 
-        <IconButton size={"large"}>
-          <FavoriteBorderIcon />
-        </IconButton>
         <Box sx={{ display: "flex", flexDirection: "column", width: "50%" }}>
           <Slider
-            sx={{ width: "100%", color: "#0c4a6e" }}
+            sx={{ width: "100%", color: "#082f49" }}
             size="small"
             value={Number(trackTime)}
             onChange={(_, newValue) => {
+              console.log(audioRef);
               audioRef.current!.currentTime = Number(newValue);
             }}
             min={0}
@@ -177,6 +174,12 @@ const SongPlayer = () => {
         onTimeUpdate={() => {
           if (audioRef.current) {
             setTrackTime(Number(audioRef.current?.currentTime));
+          }
+          if (
+            Number(audioRef.current?.currentTime) ===
+            Number(audioRef.current?.duration)
+          ) {
+            handleNextButtonClick();
           }
           console.log("Current Time ====> ", audioRef.current?.currentTime);
         }}

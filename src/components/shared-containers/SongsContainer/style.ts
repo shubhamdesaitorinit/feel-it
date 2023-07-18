@@ -20,7 +20,7 @@ export const StyledModelBox = styled(Box)`
   margin: 74px auto 8px auto !important;
   @media (min-width: 600px) {
   }
-  background-color: #ffffff;
+  background-color: #0e7490;
   border-radius: 8px;
   & .MuiStack-root {
     overflow: hidden !important;

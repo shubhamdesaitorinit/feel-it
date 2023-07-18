@@ -6,7 +6,7 @@ export const StyledRootBox = styled(Box)<{ border: string }>`
 `;
 
 export const StyledDetailsBox = styled(Box)`
-  background-color: #a8a29e;
+  background-color: #0e7490;
   border-radius: 0 0 8px 8px;
 `;
 

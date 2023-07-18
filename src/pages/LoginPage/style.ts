@@ -15,7 +15,7 @@ export const StyledLoginBox = styled(Box)`
   display: flex;
   justify-content: space-around;
   align-items: center;
-  background-color: #164e63;
+  background-color: #7c2d12;
   @media (max-width: 900px) {
     width: 100% !important;
   }

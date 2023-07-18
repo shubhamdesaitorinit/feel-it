@@ -9,7 +9,7 @@ const LoginCard = () => {
       <Auth
         supabaseClient={supabase}
         appearance={{ theme: ThemeSupa }}
-        providers={["google", "facebook", "twitter"]}
+        providers={["google", "facebook"]}
       />
     </StyledRootBox>
   );
