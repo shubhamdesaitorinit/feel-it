@@ -5,7 +5,7 @@ export const StyledModelBox = styled(Box)`
   background-color: #c7d2fe !important;
   margin: 67px auto 84px auto !important;
   overflow: scroll;
-  height: calc(100vh - 82px);
+  height: calc(100vh - 151px);
   padding: 16px;
   @media (min-width: 600px) {
   }
