@@ -73,24 +73,6 @@ const SongsContainer = () => {
     setSong(song);
   };
 
-  const handlePrevButtonClick = () => {
-    const isPrevSong = (song: Song) =>
-      song?.previewUrl === currentSong?.previewUrl;
-    const currentSongIndex = songs?.findIndex(isPrevSong);
-    const prevSong =
-      songs[currentSongIndex > 0 ? currentSongIndex - 1 : songs?.length - 1];
-    setSong(prevSong);
-  };
-
-  const handleNextButtonClick = () => {
-    const isNextSong = (song: Song) =>
-      song?.previewUrl === currentSong?.previewUrl;
-    const currentSongIndex = songs?.findIndex(isNextSong);
-    const prevSong =
-      songs[currentSongIndex < songs.length - 1 ? currentSongIndex + 1 : 0];
-    setSong(prevSong);
-  };
-
   useEffect(() => {
     setIsLoading(true);
     (async () => {

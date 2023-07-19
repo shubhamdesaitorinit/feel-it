@@ -1,4 +1,4 @@
-import { Box, Typography, CardMedia } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import { styled } from "@mui/system";
 
 export const StyledModelBox = styled(Box)`
