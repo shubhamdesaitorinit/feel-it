@@ -37,7 +37,7 @@ const SongsContainer = () => {
       }
       setScrollIsLoading(true);
       setOffset((prev) => {
-        return (prev += 15);
+        return (prev += 25);
       });
       setScrollIsLoading(false);
     }
