@@ -5,7 +5,7 @@ export const StyledRootBox = styled(Box)(() => ({
   display: "flex",
   alignItems: "center",
   justifyContent: "space-between",
-  backgroundColor: "#7c2d12",
+  backgroundColor: "#0369a1",
   padding: "16px",
   zIndex: "9999",
   position: "fixed",

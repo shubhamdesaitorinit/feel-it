@@ -96,41 +96,32 @@ const SongPlayer = () => {
   return (
     <StyledRootBox>
       <StyledBox>
-        {currentSong?.image ? (
-          <CardMedia
-            component="img"
-            sx={{
-              width: "50px !important",
-              height: "50px !important",
-              borderRadius: "10px",
-            }}
-            image={currentSong?.image}
-            alt="S"
-          ></CardMedia>
-        ) : (
-          <Skeleton height="86px" width="50px" />
-        )}
-        {currentSong?.name || currentSong?.artistName ? (
-          <Typography>
-            {sliceText(currentSong?.name) || sliceText(currentSong?.artistName)}
-          </Typography>
-        ) : (
-          <Skeleton height="40px" width="70px" />
-        )}
+        <Box display={"flex"} alignItems={"center"} gap="20px" width={"40%"}>
+          {currentSong?.artworkUrl100 ? (
+            <CardMedia
+              component="img"
+              sx={{
+                width: "50px !important",
+                height: "50px !important",
+                borderRadius: "10px",
+              }}
+              image={currentSong?.artworkUrl100}
+              alt="S"
+            ></CardMedia>
+          ) : (
+            <Skeleton height="86px" width="50px" />
+          )}
+          {currentSong?.name || currentSong?.artistName ? (
+            <Typography>
+              {sliceText(currentSong?.name) ||
+                sliceText(currentSong?.artistName)}
+            </Typography>
+          ) : (
+            <Skeleton height="40px" width="70px" />
+          )}
+        </Box>
 
-        <Box sx={{ display: "flex", flexDirection: "column", width: "50%" }}>
-          <Slider
-            sx={{ width: "100%", color: "#082f49" }}
-            size="small"
-            value={Number(trackTime)}
-            onChange={(_, newValue) => {
-              console.log(audioRef);
-              audioRef.current!.currentTime = Number(newValue);
-            }}
-            min={0}
-            max={Number(audioRef.current?.duration) || 0}
-            aria-label="track slider"
-          />
+        <Box sx={{ display: "flex", flexDirection: "column", width: "60%" }}>
           <Box
             sx={{
               display: "flex",
@@ -141,13 +132,28 @@ const SongPlayer = () => {
             <IconButton onClick={handlePrevButtonClick}>
               <SkipPreviousIcon />
             </IconButton>
-            <IconButton onClick={togglePlay} size={"large"}>
+            <IconButton
+              onClick={togglePlay}
+              size={"large"}
+              sx={{ backgroundColor: "#075985" }}
+            >
               {isPlaying ? <PauseIcon /> : <PlayArrowIcon />}
             </IconButton>
             <IconButton onClick={handleNextButtonClick}>
               <SkipNextIcon />
             </IconButton>
           </Box>
+          <Slider
+            sx={{ width: "100%", color: "#082f49" }}
+            size="small"
+            value={Number(trackTime)}
+            onChange={(_, newValue) => {
+              audioRef.current!.currentTime = Number(newValue);
+            }}
+            min={0}
+            max={Number(audioRef.current?.duration) || 0}
+            aria-label="track slider"
+          />
         </Box>
       </StyledBox>
       <StyledVolumeButtonBox>
@@ -181,7 +187,6 @@ const SongPlayer = () => {
           ) {
             handleNextButtonClick();
           }
-          console.log("Current Time ====> ", audioRef.current?.currentTime);
         }}
       />
     </StyledRootBox>

@@ -1,9 +1,9 @@
-import { CardMedia, IconButton, Typography } from "@mui/material";
+import { Box, CardMedia, IconButton, Typography } from "@mui/material";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import PauseIcon from "@mui/icons-material/Pause";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import { useSelector } from "react-redux";
-import { StyledDetailsBox, StyledRootBox } from "./style";
+import { StyledDetailsBox, StyledImageBox, StyledRootBox } from "./style";
 import { sliceText } from "@constants/index";
 
 interface CardType {
@@ -24,30 +24,35 @@ const CustomCard = ({ details, onClick }: CardType) => {
       }`}
       onClick={onClick}
     >
-      <CardMedia
-        component="img"
-        image={details?.image}
-        alt="S"
-        sx={{
-          width: "300px",
-          height: "300px",
-          borderRadius: "8px 8px 0 0",
-        }}
-      />
+      <StyledImageBox>
+        <CardMedia
+          component="img"
+          image={details?.artworkUrl100}
+          alt="S"
+          sx={{
+            width: "100%",
+            height: "100%",
+            borderRadius: "8px 8px 0 0",
+          }}
+        />
+      </StyledImageBox>
+
       <StyledDetailsBox>
         <Typography padding="5px">
-          {sliceText(details?.name || details?.artistName)}
+          {sliceText(details?.name || details?.artistName, 25)}
         </Typography>
-        <IconButton size={"large"}>
-          {isPlaying && currentSong?.previewUrl === details?.previewUrl ? (
-            <PauseIcon />
-          ) : (
-            <PlayArrowIcon />
-          )}
-        </IconButton>
-        <IconButton size={"large"}>
-          <FavoriteBorderIcon />
-        </IconButton>
+        <Box sx={{ alignSelf: "center" }}>
+          <IconButton size={"large"}>
+            {isPlaying && currentSong?.previewUrl === details?.previewUrl ? (
+              <PauseIcon />
+            ) : (
+              <PlayArrowIcon />
+            )}
+          </IconButton>
+          <IconButton size={"large"}>
+            <FavoriteBorderIcon />
+          </IconButton>
+        </Box>
       </StyledDetailsBox>
     </StyledRootBox>
   );

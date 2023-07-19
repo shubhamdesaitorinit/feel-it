@@ -1,9 +1,23 @@
 interface Song {
   name: string;
   previewUrl: string;
-  image: string;
+  artworkUrl100: string;
   artistName: string;
-  artistId: string;
+  artistId: number | null;
+  artistViewUrl: string;
+  collectionCensoredName: string;
+  collectionExplicitness: string;
+  collectionId: number | null;
+  collectionName: string;
+  collectionPrice: number | null;
+  collectionViewUrl: string;
+  country: string;
+  currency: string;
+  description: string;
+  primaryGenreName: string;
+  releaseDate: string;
+  trackCount: number | null;
+  wrapperType: string;
 }
 
 interface SongStoreType {

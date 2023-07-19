@@ -142,7 +142,7 @@ const Navigation = () => {
   return (
     <StyledRootBox>
       <AppBar position="static">
-        <Toolbar sx={{ backgroundColor: "#b45309" }}>
+        <Toolbar sx={{ backgroundColor: "#6d28d9" }}>
           <IconButton
             size="large"
             edge="start"

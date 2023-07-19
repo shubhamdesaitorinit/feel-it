@@ -1,17 +1,15 @@
-import { Box, CardMedia, IconButton, Modal, Skeleton } from "@mui/material";
+import { Box, IconButton, Skeleton } from "@mui/material";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { DEFAULT_SONG_REQUEST_LIMIT } from "../../../constants";
+import { DEFAULT_SONG_REQUEST_LIMIT } from "@constants/index";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
-import PauseIcon from "@mui/icons-material/Pause";
 
 import { setCurrentSong, setPlay, setSongs } from "@reducers/SongReducer";
 import { getSongs, refineSongsData } from "./helper";
-import { StyledModelBox, StyledRootBox } from "./style";
+import { StyledRootBox } from "./style";
 import CustomCard from "@shared-components/CustomCard";
-import SkipNextIcon from "@mui/icons-material/SkipNext";
-import SkipPreviousIcon from "@mui/icons-material/SkipPrevious";
+import SongModel from "@src/components/SongModel";
 
 const SongsContainer = () => {
   const {
@@ -164,42 +162,7 @@ const SongsContainer = () => {
 
   return (
     <StyledRootBox ref={containerRef}>
-      <Modal
-        open={isOpen}
-        onClose={handleClose}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
-        <StyledModelBox>
-          <CardMedia
-            component="img"
-            image={currentSong?.image}
-            alt="S"
-            sx={{
-              width: "350px !important",
-              height: "350px !important",
-              borderRadius: "8px 8px 0 0",
-            }}
-          />
-          <Box
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            <IconButton onClick={handlePrevButtonClick}>
-              <SkipPreviousIcon />
-            </IconButton>
-            <IconButton onClick={() => setSong(currentSong)} size={"large"}>
-              {isPlaying ? <PauseIcon /> : <PlayArrowIcon />}
-            </IconButton>
-            <IconButton onClick={handleNextButtonClick}>
-              <SkipNextIcon />
-            </IconButton>
-          </Box>
-        </StyledModelBox>
-      </Modal>
+      <SongModel isOpen={isOpen} onClose={handleClose} setSong={setSong} />
       {renderContent(songs)}
       {scrollIsLoading ? renderSkelton() : <></>}
     </StyledRootBox>
