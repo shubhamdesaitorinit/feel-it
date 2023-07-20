@@ -111,7 +111,8 @@ const SongsContainer = () => {
       }
     })();
     setIsLoading(false);
-  }, [search, offset, currentSong?.previewUrl, dispatch]);
+    // eslint-disable-next-line
+  }, [search, offset, dispatch]);
 
   const skeletonArray: number[] = new Array(10).fill("");
 
