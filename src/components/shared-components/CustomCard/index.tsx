@@ -38,9 +38,14 @@ const CustomCard = ({ details, onClick }: CardType) => {
       </StyledImageBox>
 
       <StyledDetailsBox>
-        <Typography padding="5px">
-          {sliceText(details?.name || details?.artistName, 25)}
-        </Typography>
+        <Box>
+          <Typography padding="5px">
+            {sliceText(details?.name || details?.artistName, 25)}
+          </Typography>
+          <Typography padding="5px">
+            Lyrics : {sliceText(details?.artistName, 25)}
+          </Typography>
+        </Box>
         <Box sx={{ alignSelf: "center" }}>
           <IconButton size={"large"}>
             {isPlaying && currentSong?.previewUrl === details?.previewUrl ? (

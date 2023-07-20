@@ -31,6 +31,7 @@ export const DetailsBox = styled(Box)`
   flex-direction: column;
   align-items: flex-start;
   gap: 8px;
+  width: 60%;
 `;
 
 export const StyledTypography = styled(Typography)`

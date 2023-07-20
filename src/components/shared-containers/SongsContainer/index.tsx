@@ -1,5 +1,5 @@
 import { Box, IconButton, Skeleton } from "@mui/material";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { DEFAULT_SONG_REQUEST_LIMIT } from "@constants/index";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
@@ -9,7 +9,8 @@ import { setCurrentSong, setPlay, setSongs } from "@reducers/SongReducer";
 import { getSongs, refineSongsData } from "./helper";
 import { StyledRootBox } from "./style";
 import CustomCard from "@shared-components/CustomCard";
-import SongModel from "@src/components/SongModel";
+import SongModal from "@src/components/SongModal";
+import useScroll from "@src/hooks/ScrollHook";
 
 const SongsContainer = () => {
   const {
@@ -25,36 +26,51 @@ const SongsContainer = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const [isOpen, setIsOpen] = useState(false);
 
-  const handleScroll = useCallback(async () => {
-    if (containerRef.current) {
-      const scrollHeight = containerRef.current.scrollHeight;
-      const scrollTop = containerRef.current.scrollTop;
-      const clientHeight = containerRef.current.clientHeight;
-      const isNotScrolledToBottom = scrollHeight - scrollTop !== clientHeight;
+  const setScrollLoading = (loading: boolean) => {
+    setScrollIsLoading(loading);
+  };
+  const changeOffset = () => {
+    setOffset((prev) => {
+      return (prev += 25);
+    });
+  };
+  useScroll({
+    isLoading,
+    scrollIsLoading,
+    setScrollLoading,
+    containerRef,
+    changeOffset,
+  });
 
-      if (isNotScrolledToBottom || isLoading || scrollIsLoading || search) {
-        return;
-      }
-      setScrollIsLoading(true);
-      setOffset((prev) => {
-        return (prev += 25);
-      });
-      setScrollIsLoading(false);
-    }
-  }, [search, isLoading, scrollIsLoading]);
+  // const handleScroll = useCallback(async () => {
+  //   if (containerRef.current) {
+  //     const scrollHeight = containerRef.current.scrollHeight;
+  //     const scrollTop = containerRef.current.scrollTop;
+  //     const clientHeight = containerRef.current.clientHeight;
+  //     const isNotScrolledToBottom = scrollHeight - scrollTop !== clientHeight;
 
-  useEffect(() => {
-    const containerDivRef = containerRef.current;
-    if (containerDivRef) {
-      containerDivRef.addEventListener("scroll", handleScroll);
-    }
-    return () => {
-      if (containerDivRef) {
-        containerDivRef.removeEventListener("scroll", handleScroll);
-      }
-    };
-    // eslint-disable-next-line
-  }, [isLoading, offset]);
+  //     if (isNotScrolledToBottom || isLoading || scrollIsLoading || search) {
+  //       return;
+  //     }
+  //     setScrollIsLoading(true);
+  //     setOffset((prev) => {
+  //       return (prev += 25);
+  //     });
+  //     setScrollIsLoading(false);
+  //   }
+  // }, [search, isLoading, scrollIsLoading]);
+
+  // useEffect(() => {
+  //   const containerDivRef = containerRef.current;
+  //   if (containerDivRef) {
+  //     containerDivRef.addEventListener("scroll", handleScroll);
+  //   }
+  //   return () => {
+  //     if (containerDivRef) {
+  //       containerDivRef.removeEventListener("scroll", handleScroll);
+  //     }
+  //   };
+  // }, [isLoading, offset, handleScroll]);
 
   const handleClose = () => {
     setIsOpen(false);
@@ -65,6 +81,7 @@ const SongsContainer = () => {
       dispatch(setPlay({ isPlaying: isPlaying ? false : true }));
     } else {
       dispatch(setCurrentSong({ currentSong: song }));
+      dispatch(setPlay({ isPlaying: true }));
     }
   };
 
@@ -76,11 +93,12 @@ const SongsContainer = () => {
   useEffect(() => {
     setIsLoading(true);
     (async () => {
-      const newSongs = await getSongs(
-        search,
-        offset,
+      const url = `https://itunes.apple.com/search/?term=${
+        search || `alan walker`
+      }&offset=${search ? "" : offset}&limit=${
         search ? 100 : DEFAULT_SONG_REQUEST_LIMIT
-      );
+      }`;
+      const newSongs = await getSongs(url);
       setIsLoading(false);
 
       if (newSongs?.data) {
@@ -93,19 +111,14 @@ const SongsContainer = () => {
       }
     })();
     setIsLoading(false);
+  }, [search, offset, currentSong?.previewUrl, dispatch]);
 
-    // eslint-disable-next-line
-  }, [search, offset]);
-
-  const skeletonArray: number[] = [];
-  for (let i = 0; i < 10; i++) {
-    skeletonArray.push(i);
-  }
+  const skeletonArray: number[] = new Array(10).fill("");
 
   const renderSkelton = () => {
-    return skeletonArray.map((num: number) => {
+    return skeletonArray.map((num: number, index: number) => {
       return (
-        <Box key={num}>
+        <Box key={index}>
           <Skeleton
             variant="rectangular"
             width={300}
@@ -144,7 +157,7 @@ const SongsContainer = () => {
 
   return (
     <StyledRootBox ref={containerRef}>
-      <SongModel isOpen={isOpen} onClose={handleClose} setSong={setSong} />
+      <SongModal isOpen={isOpen} onClose={handleClose} setSong={setSong} />
       {renderContent(songs)}
       {scrollIsLoading ? renderSkelton() : <></>}
     </StyledRootBox>

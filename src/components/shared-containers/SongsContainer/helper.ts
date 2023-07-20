@@ -1,19 +1,8 @@
 import axios from "axios";
-import { DEFAULT_SONG_REQUEST_LIMIT } from "@constants/index";
 
-export const getSongs = async (
-  search?: string,
-  offset?: number,
-  limit?: number
-) => {
-  console.log("innerApicall", search, offset, limit);
+export const getSongs = async (url: string) => {
+  console.log("innerApicall", url);
   try {
-    const url = `https://itunes.apple.com/search/?term=${
-      search || `alan walker`
-    }&offset=${search ? "" : offset}&limit=${
-      limit || DEFAULT_SONG_REQUEST_LIMIT
-    }`;
-
     const songs = await axios(url);
     if (songs.data) {
       return { data: (songs?.data?.results as Song[]) || [], error: null };
@@ -26,38 +15,22 @@ export const getSongs = async (
 export const refineSongsData = (data: Song[]) => {
   if (!data?.length) return [];
 
-  const songsList: Song[] = [];
-
-  for (const song of data) {
-    if (!song?.previewUrl) {
-      continue;
+  const songsList: Song[] = data.reduce((accumulator, song) => {
+    if (song?.previewUrl) {
+      const changeImageUrl = (url: string) => {
+        return url.replace("100x100", "500x500");
+      };
+      const refinedSong = {
+        ...song,
+        name:
+          song?.collectionName?.split(":")[1] ||
+          song?.collectionName?.split(":")[0] ||
+          "",
+        artworkUrl100: changeImageUrl(song?.artworkUrl100) || "",
+      };
+      accumulator.push(refinedSong);
     }
-    const changeImageUrl = (url: string) => {
-      return url.replace("100x100", "900x900");
-    };
-    const refinedSong = {
-      name: song?.collectionName?.split(":")[1] || "",
-      artistName: song?.artistName || "",
-      previewUrl: song?.previewUrl || "",
-      artworkUrl100: changeImageUrl(song?.artworkUrl100) || "",
-      artistId: song?.artistId || 0,
-      artistViewUrl: song?.artistViewUrl || "",
-      collectionCensoredName: song?.collectionCensoredName || "",
-      collectionExplicitness: song?.collectionExplicitness || "",
-      collectionId: song?.collectionId || 0,
-      collectionName: song?.collectionName || "",
-      collectionPrice: song?.collectionPrice || 0,
-      collectionViewUrl: song?.collectionViewUrl || "",
-      country: song?.country || "",
-      currency: song?.currency || "",
-      description: song?.description || "",
-      primaryGenreName: song?.primaryGenreName || "",
-      releaseDate: song?.releaseDate || "",
-      trackCount: song?.trackCount || 0,
-      wrapperType: song?.wrapperType || "",
-    };
-
-    songsList.push(refinedSong);
-  }
+    return accumulator;
+  }, [] as Song[]);
   return songsList;
 };

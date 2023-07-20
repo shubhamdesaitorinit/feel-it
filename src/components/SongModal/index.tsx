@@ -10,14 +10,14 @@ import {
   StyledTypography,
 } from "./style";
 import { sliceText } from "@src/constants";
-import dayjs from "dayjs";
+import { getYear } from "@src/utils/Date";
 
-const SongModel = ({ isOpen, onClose, setSong }: SongModelType) => {
+const SongModal = ({ isOpen, onClose, setSong }: SongModalType) => {
   const {
     currentSong,
     songAction: { isPlaying },
   } = useSelector(({ song }: { song: SongStoreType }) => song);
-  const releseYear = dayjs(currentSong?.releaseDate).year();
+  const releseYear = getYear(currentSong?.releaseDate);
 
   return (
     <Modal
@@ -50,7 +50,7 @@ const SongModel = ({ isOpen, onClose, setSong }: SongModelType) => {
           </StyledImageBox>
           <DetailsBox>
             <StyledTypography color="#334155">
-              {currentSong?.collectionName.split(":")[0]}
+              {currentSong?.collectionName?.split(":")[0]}
             </StyledTypography>
             <Typography component="h4" variant="h4">
               {sliceText(currentSong?.name, 25) ||
@@ -66,7 +66,7 @@ const SongModel = ({ isOpen, onClose, setSong }: SongModelType) => {
             </Typography>
             <Typography>
               Description :
-              {currentSong?.description.split("<br />")[0] ||
+              {currentSong?.description?.split("<br />")[0] ||
                 `This song is released in ${releseYear} and the artist name is ${currentSong?.artistName}`}
             </Typography>
             <Button
@@ -83,4 +83,4 @@ const SongModel = ({ isOpen, onClose, setSong }: SongModelType) => {
   );
 };
 
-export default SongModel;
+export default SongModal;
