@@ -95,7 +95,7 @@ const SongsContainer = () => {
   const skeletonArray: number[] = new Array(15).fill("");
 
   const renderSkelton = () => {
-    return skeletonArray?.map((num: number, index: number) => {
+    return skeletonArray?.map((_: number, index: number) => {
       return (
         <Grid key={index} item xs={6} sm={4} md={3} lg={2} width={"100%"}>
           <Box

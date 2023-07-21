@@ -51,10 +51,6 @@ export const StyledImageBox = styled(Box)`
     width: 400px;
     height: 400px;
   }
-  @media (max-width: 700px) {
-    width: 400px;
-    height: 400px;
-  }
   @media (max-width: 500px) {
     width: 90%;
     height: 250px;

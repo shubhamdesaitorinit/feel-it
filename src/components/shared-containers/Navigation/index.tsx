@@ -24,7 +24,6 @@ import {
 import { saveUserToken } from "@reducers/UserReducer";
 import theme from "@src/utils/Theme";
 import { debounce } from "@src/utils/GlobalFuntions";
-import { Drawer } from "@mui/material";
 import Sidebar from "@src/components/shared-layouts/Sidebar";
 
 const Navigation = () => {

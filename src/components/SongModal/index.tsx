@@ -5,8 +5,8 @@ import CloseIcon from "@mui/icons-material/Close";
 import { CardBox, DetailsBox, StyledImageBox, StyledModelBox } from "./style";
 import { getYear } from "@src/utils/Date";
 import theme from "@src/utils/Theme";
-import LazyImage from "../LazyImage";
 import { sliceText } from "@src/utils/GlobalFuntions";
+import LazyImage from "../LazyImage";
 
 const SongModal = ({ isOpen, onClose, setSong }: SongModalType) => {
   const {
@@ -34,16 +34,13 @@ const SongModal = ({ isOpen, onClose, setSong }: SongModalType) => {
             />
           </StyledImageBox>
           <DetailsBox>
-            <Typography component="h5" variant="h6" color="#334155">
-              {currentSong?.collectionName?.split(":")[0] ||
-                sliceText(currentSong?.artistName, 25)}
+            <Typography noWrap component="h5" variant="h6" color="#334155">
+              {currentSong?.collectionName || currentSong?.artistName}
             </Typography>
-            <Typography component="h4" variant="h5">
-              {sliceText(currentSong?.name, 25) ||
-                sliceText(
-                  currentSong?.collectionName || currentSong?.artistName,
-                  25
-                )}
+            <Typography noWrap component="h4" variant="h5">
+              {currentSong?.name ||
+                currentSong?.collectionName ||
+                currentSong?.artistName}
             </Typography>
             <Typography sx={{ textAlign: "center" }}>
               {currentSong?.name ||
@@ -53,7 +50,7 @@ const SongModal = ({ isOpen, onClose, setSong }: SongModalType) => {
               {releseYear}
             </Typography>
             <Typography>
-              Artist :{sliceText(currentSong?.artistName, 25)}
+              Artist : {sliceText(currentSong?.artistName, 25)}
             </Typography>
             <Typography>
               Description :

@@ -112,8 +112,7 @@ const SongPlayer = () => {
           )}
           {currentSong?.name || currentSong?.artistName ? (
             <Typography>
-              {sliceText(currentSong?.name) ||
-                sliceText(currentSong?.artistName)}
+              {sliceText(currentSong?.name || currentSong?.artistName)}
             </Typography>
           ) : (
             <Skeleton height="40px" width="70px" />
