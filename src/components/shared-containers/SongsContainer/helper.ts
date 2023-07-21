@@ -1,7 +1,6 @@
 import axios from "axios";
 
 export const getSongs = async (url: string) => {
-  console.log("innerApicall", url);
   try {
     const songs = await axios(url);
     if (songs.data) {
@@ -19,7 +18,6 @@ export const refineSongsData = (data: Song[]) => {
     if (song?.previewUrl) {
       const changeImageUrl = (url: string, pixel: number) => {
         return url.replace("100x100", `${pixel}x${pixel}`);
-        // return url;
       };
       const refinedSong = {
         ...song,

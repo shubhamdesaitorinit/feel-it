@@ -1,10 +1,11 @@
 import { Box, Skeleton, styled } from "@mui/material";
 
-export const StyledRootBox = styled(Box)<{ border: string }>`
+export const StyledRootBox = styled(Box)`
   cursor: pointer;
-  border: ${({ border }: { border: string }) => border};
   border-radius: 10px;
-  box-shadow: rgba(0, 0, 0, 0.56) 0px 12px 40px 2px;
+  box-shadow: rgba(0, 0, 0, 0.07) 0px 1px 2px, rgba(0, 0, 0, 0.07) 0px 2px 4px,
+    rgba(0, 0, 0, 0.07) 0px 4px 8px, rgba(0, 0, 0, 0.07) 0px 8px 16px,
+    rgba(0, 0, 0, 0.07) 0px 16px 32px, rgba(0, 0, 0, 0.07) 0px 32px 64px;
 `;
 
 export const StyledDetailsBox = styled(Box)(({ theme }) => ({
@@ -19,5 +20,5 @@ export const StyledSkeleton = styled(Skeleton)`
 
 export const StyledImageBox = styled(Box)`
   height: 200px;
-  width: 200px;
+  width: 100%;
 `;

@@ -14,10 +14,10 @@ import VolumeOffIcon from "@mui/icons-material/VolumeOff";
 import { useDispatch, useSelector } from "react-redux";
 import { StyledBox, StyledRootBox, StyledVolumeButtonBox } from "./style";
 import { setCurrentSong, setPlay } from "@reducers/SongReducer";
-import { sliceText } from "@constants/index";
 import SkipNextIcon from "@mui/icons-material/SkipNext";
 import SkipPreviousIcon from "@mui/icons-material/SkipPrevious";
 import theme from "@src/utils/Theme";
+import { sliceText } from "@src/utils/GlobalFuntions";
 const SongPlayer = () => {
   const dispatch = useDispatch();
   const {
@@ -163,7 +163,7 @@ const SongPlayer = () => {
         {volume <= 0 ? (
           <VolumeOffIcon onClick={toggleVolume} />
         ) : (
-          <VolumeUpIcon onClick={toggleVolume} />
+          <VolumeUpIcon sx={{ cursor: "pointer" }} onClick={toggleVolume} />
         )}
         <Slider
           sx={{ width: "70%", color: "#0c4a6e" }}

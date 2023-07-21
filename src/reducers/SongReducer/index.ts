@@ -1,29 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { INITIAL_SONG } from "@src/constants";
 
 const initialState: SongStoreType = {
   songs: [],
-  currentSong: {
-    name: "",
-    previewUrl: "",
-    artworkUrl100: "",
-    artworkUrl60: "",
-    artistName: "",
-    artistId: null,
-    artistViewUrl: "",
-    collectionCensoredName: "",
-    collectionExplicitness: "",
-    collectionId: null,
-    collectionName: "",
-    collectionPrice: null,
-    collectionViewUrl: "",
-    country: "",
-    currency: "",
-    description: "",
-    primaryGenreName: "",
-    releaseDate: "",
-    trackCount: null,
-    wrapperType: "",
-  },
+  currentSong: INITIAL_SONG,
   songAction: {
     search: "",
     isPlaying: false,

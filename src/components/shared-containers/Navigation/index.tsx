@@ -9,7 +9,6 @@ import Menu from "@mui/material/Menu";
 import MenuIcon from "@mui/icons-material/Menu";
 import SearchIcon from "@mui/icons-material/Search";
 import AccountCircle from "@mui/icons-material/AccountCircle";
-import MoreIcon from "@mui/icons-material/MoreVert";
 import { supabase } from "@supabaseClient/Auth";
 import { useNavigate } from "react-router-dom";
 import { useRef, useState } from "react";
@@ -18,43 +17,36 @@ import { setSearch, setSongs } from "@reducers/SongReducer";
 import {
   Search,
   SearchIconWrapper,
-  StyledIconBox,
+  StyledDrawer,
   StyledInputBase,
   StyledRootBox,
 } from "./style";
 import { saveUserToken } from "@reducers/UserReducer";
 import theme from "@src/utils/Theme";
-
-export const debounce = <T extends (...args: any[]) => any>(
-  func: T,
-  wait: number
-) => {
-  let timeout: ReturnType<typeof setTimeout>;
-
-  return (...args: Parameters<T>): void => {
-    clearTimeout(timeout);
-    timeout = setTimeout(() => func(...args), wait);
-  };
-};
+import { debounce } from "@src/utils/GlobalFuntions";
+import { Drawer } from "@mui/material";
+import Sidebar from "@src/components/shared-layouts/Sidebar";
 
 const Navigation = () => {
   const inputRef = useRef<HTMLInputElement>(null);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] =
-    React.useState<null | HTMLElement>(null);
+  const [isDrawerOpen, setDrawerIsOpen] = useState(false);
 
   const isMenuOpen = Boolean(anchorEl);
-  const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
   //Functions
   const handleProfileMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
 
-  const handleMobileMenuClose = () => {
-    setMobileMoreAnchorEl(null);
+  const handleDrawerClose = () => {
+    setDrawerIsOpen(false);
+  };
+
+  const handleOpenDrawer = () => {
+    setDrawerIsOpen((prev) => !prev);
   };
 
   const handleLogout = async () => {
@@ -72,10 +64,6 @@ const Navigation = () => {
     setAnchorEl(null);
   };
 
-  const handleMobileMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
-    setMobileMoreAnchorEl(event.currentTarget);
-  };
-
   const setSearchVal = (searchInputVal: string) => {
     dispatch(setSearch({ search: searchInputVal }));
     dispatch(setSongs({ songs: [] }));
@@ -89,7 +77,7 @@ const Navigation = () => {
 
   const renderMenu = (
     <Menu
-      sx={{ zIndex: "9999" }}
+      sx={{ zIndex: "99999" }}
       anchorEl={anchorEl}
       anchorOrigin={{
         vertical: "bottom",
@@ -108,40 +96,12 @@ const Navigation = () => {
     </Menu>
   );
 
-  const renderMobileMenu = (
-    <Menu
-      anchorEl={mobileMoreAnchorEl}
-      anchorOrigin={{
-        vertical: "top",
-        horizontal: "right",
-      }}
-      sx={{ zIndex: "9999" }}
-      id="primary-search-account-menu-mobile"
-      keepMounted
-      transformOrigin={{
-        vertical: "top",
-        horizontal: "right",
-      }}
-      open={isMobileMenuOpen}
-      onClose={handleMobileMenuClose}
-    >
-      <MenuItem onClick={handleProfileMenuOpen}>
-        <IconButton
-          size="large"
-          aria-label="account of current user"
-          aria-controls="primary-search-account-menu"
-          aria-haspopup="true"
-          color="inherit"
-        >
-          <AccountCircle />
-        </IconButton>
-        <p>Profile</p>
-      </MenuItem>
-    </Menu>
-  );
-
   return (
     <StyledRootBox>
+      <StyledDrawer open={isDrawerOpen} onClose={handleDrawerClose}>
+        <Sidebar handleCloseDrawer={handleDrawerClose} />
+      </StyledDrawer>
+
       <AppBar position="static">
         <Toolbar sx={{ backgroundColor: theme.palette.secondary.main }}>
           <IconButton
@@ -149,6 +109,7 @@ const Navigation = () => {
             edge="start"
             color="inherit"
             aria-label="open drawer"
+            onClick={handleOpenDrawer}
             sx={{ mr: 2, color: theme.palette.secondary.dark }}
           >
             <MenuIcon />
@@ -159,9 +120,8 @@ const Navigation = () => {
             component="div"
             fontWeight={"600"}
             sx={{
+              paddingRight: "10px",
               display: {
-                xs: "none",
-                sm: "block",
                 color: theme.palette.secondary.contrastText,
               },
             }}
@@ -182,34 +142,19 @@ const Navigation = () => {
             />
           </Search>
           <Box sx={{ flexGrow: 1 }} />
-          <StyledIconBox>
-            <IconButton
-              size="large"
-              edge="end"
-              aria-label="account of current user"
-              aria-controls="primary-search-account-menu"
-              aria-haspopup="true"
-              onClick={handleProfileMenuOpen}
-              color="inherit"
-            >
-              <AccountCircle />
-            </IconButton>
-          </StyledIconBox>
-          <Box sx={{ display: { xs: "flex", md: "none" } }}>
-            <IconButton
-              size="large"
-              aria-label="show more"
-              aria-controls="primary-search-account-menu-mobile"
-              aria-haspopup="true"
-              onClick={handleMobileMenuOpen}
-              color="inherit"
-            >
-              <MoreIcon />
-            </IconButton>
-          </Box>
+          <IconButton
+            size="large"
+            edge="end"
+            aria-label="account of current user"
+            aria-controls="primary-search-account-menu"
+            aria-haspopup="true"
+            onClick={handleProfileMenuOpen}
+            color="inherit"
+          >
+            <AccountCircle fontSize="large" />
+          </IconButton>
         </Toolbar>
       </AppBar>
-      {renderMobileMenu}
       {renderMenu}
     </StyledRootBox>
   );

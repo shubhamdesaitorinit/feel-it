@@ -33,7 +33,11 @@ const LoginCard = () => {
       <Typography variant="h5" width={"100%"} textAlign={"center"}>
         Log In
       </Typography>
-      <Auth supabaseClient={supabase} appearance={{ theme: ThemeSupa }} />
+      <Auth
+        supabaseClient={supabase}
+        appearance={{ theme: ThemeSupa }}
+        providers={["google"]}
+      />
     </StyledRootBox>
   );
 };
