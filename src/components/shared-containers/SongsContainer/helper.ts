@@ -17,8 +17,9 @@ export const refineSongsData = (data: Song[]) => {
 
   const songsList: Song[] = data.reduce((accumulator, song) => {
     if (song?.previewUrl) {
-      const changeImageUrl = (url: string) => {
-        return url.replace("100x100", "500x500");
+      const changeImageUrl = (url: string, pixel: number) => {
+        return url.replace("100x100", `${pixel}x${pixel}`);
+        // return url;
       };
       const refinedSong = {
         ...song,
@@ -26,7 +27,8 @@ export const refineSongsData = (data: Song[]) => {
           song?.collectionName?.split(":")[1] ||
           song?.collectionName?.split(":")[0] ||
           "",
-        artworkUrl100: changeImageUrl(song?.artworkUrl100) || "",
+        artworkUrl100: changeImageUrl(song?.artworkUrl100, 500) || "",
+        artworkUrl60: changeImageUrl(song?.artworkUrl100, 10),
       };
       accumulator.push(refinedSong);
     }

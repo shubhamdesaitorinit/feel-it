@@ -2,7 +2,6 @@ import { Box, Typography } from "@mui/material";
 import { styled } from "@mui/system";
 
 export const StyledModelBox = styled(Box)`
-  background-color: #c7d2fe !important;
   margin: 67px auto 84px auto !important;
   overflow: scroll;
   height: calc(100vh - 151px);

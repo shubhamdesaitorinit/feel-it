@@ -2,6 +2,7 @@ interface Song {
   name: string;
   previewUrl: string;
   artworkUrl100: string;
+  artworkUrl60: string;
   artistName: string;
   artistId: number | null;
   artistViewUrl: string;

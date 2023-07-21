@@ -2,7 +2,7 @@ import { Box } from "@mui/material";
 import { styled } from "@mui/system";
 
 export const StyledRootBox = styled(Box)`
-  background-color: #ede9fe;
+  background-color: #ffffff;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
@@ -15,7 +15,4 @@ export const StyledRootBox = styled(Box)`
   bottom: 82px;
   overflow: auto;
   padding: 10px 60px;
-  @media (max-width: 850px) {
-    padding: 5px 20px;
-  }
 `;

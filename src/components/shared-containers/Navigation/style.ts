@@ -8,6 +8,7 @@ export const StyledRootBox = styled(Box)`
   overflow: auto;
   width: 100%;
   top: 0px;
+  box-shadow: rgba(0, 0, 0, 0.56) 0px 5px 5px 4px;
 `;
 
 export const StyledIconBox = styled(Box)(({ theme }) => ({
@@ -23,9 +24,10 @@ export const StyledIconBox = styled(Box)(({ theme }) => ({
 export const Search = styled("div")(({ theme }) => ({
   position: "relative",
   borderRadius: "8px",
-  backgroundColor: "#a8a29e",
+  backgroundColor: "#ffffff",
   marginRight: "16px",
   marginLeft: 0,
+  color: theme.palette.primary.dark,
   width: "100%",
   [theme.breakpoints.up("sm")]: {
     marginLeft: theme.spacing(3),

@@ -13,9 +13,10 @@ export const StyledRootBox = styled(Box)`
 export const StyledLoginBox = styled(Box)`
   width: 30%;
   display: flex;
-  justify-content: space-around;
+  flex-direction: column;
+  justify-content: space-between;
   align-items: center;
-  background-color: #7c2d12;
+  background-color: #ffffff;
   @media (max-width: 900px) {
     width: 100% !important;
   }

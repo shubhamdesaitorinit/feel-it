@@ -9,6 +9,7 @@ const LoginPage = () => {
       <StyledRootBox>
         <CardMedia
           component="img"
+          loading="lazy"
           sx={{
             borderRadius: "10px",
             height: "100%",
@@ -17,8 +18,9 @@ const LoginPage = () => {
           alt="S"
         ></CardMedia>
       </StyledRootBox>
+
       <StyledLoginBox>
-        <LoginCard />
+        <LoginCard  />
       </StyledLoginBox>
     </Box>
   );

@@ -24,9 +24,10 @@ const DefaultRouteMiddleware = () => {
       );
     }
   };
-
   useEffect(() => {
-    getSession();
+    if (!token) {
+      getSession();
+    }
     // eslint-disable-next-line
   }, []);
 

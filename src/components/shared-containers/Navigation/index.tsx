@@ -23,6 +23,7 @@ import {
   StyledRootBox,
 } from "./style";
 import { saveUserToken } from "@reducers/UserReducer";
+import theme from "@src/utils/Theme";
 
 export const debounce = <T extends (...args: any[]) => any>(
   func: T,
@@ -142,13 +143,13 @@ const Navigation = () => {
   return (
     <StyledRootBox>
       <AppBar position="static">
-        <Toolbar sx={{ backgroundColor: "#6d28d9" }}>
+        <Toolbar sx={{ backgroundColor: theme.palette.secondary.main }}>
           <IconButton
             size="large"
             edge="start"
             color="inherit"
             aria-label="open drawer"
-            sx={{ mr: 2 }}
+            sx={{ mr: 2, color: theme.palette.secondary.dark }}
           >
             <MenuIcon />
           </IconButton>
@@ -156,7 +157,14 @@ const Navigation = () => {
             variant="h6"
             noWrap
             component="div"
-            sx={{ display: { xs: "none", sm: "block" } }}
+            fontWeight={"600"}
+            sx={{
+              display: {
+                xs: "none",
+                sm: "block",
+                color: theme.palette.secondary.contrastText,
+              },
+            }}
           >
             Feel !t
           </Typography>

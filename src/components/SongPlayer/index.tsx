@@ -17,6 +17,7 @@ import { setCurrentSong, setPlay } from "@reducers/SongReducer";
 import { sliceText } from "@constants/index";
 import SkipNextIcon from "@mui/icons-material/SkipNext";
 import SkipPreviousIcon from "@mui/icons-material/SkipPrevious";
+import theme from "@src/utils/Theme";
 const SongPlayer = () => {
   const dispatch = useDispatch();
   const {
@@ -71,7 +72,6 @@ const SongPlayer = () => {
     const prevSong =
       songs[currentSongIndex > 0 ? currentSongIndex - 1 : songs?.length - 1];
     dispatch(setCurrentSong({ currentSong: prevSong }));
-    // setSong(prevSong);
   };
 
   const handleNextButtonClick = () => {
@@ -81,7 +81,6 @@ const SongPlayer = () => {
     const prevSong =
       songs[currentSongIndex < songs.length - 1 ? currentSongIndex + 1 : 0];
     dispatch(setCurrentSong({ currentSong: prevSong }));
-    // setSong(prevSong);
   };
 
   useEffect(() => {
@@ -127,6 +126,7 @@ const SongPlayer = () => {
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
+              gap: "20px",
             }}
           >
             <IconButton onClick={handlePrevButtonClick}>
@@ -134,8 +134,11 @@ const SongPlayer = () => {
             </IconButton>
             <IconButton
               onClick={togglePlay}
-              size={"large"}
-              sx={{ backgroundColor: "#075985" }}
+              size={"small"}
+              sx={{
+                backgroundColor: theme.palette.secondary.contrastText,
+                color: "#ffffff",
+              }}
             >
               {isPlaying ? <PauseIcon /> : <PlayArrowIcon />}
             </IconButton>

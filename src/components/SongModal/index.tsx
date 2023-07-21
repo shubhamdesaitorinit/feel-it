@@ -11,6 +11,7 @@ import {
 } from "./style";
 import { sliceText } from "@src/constants";
 import { getYear } from "@src/utils/Date";
+import theme from "@src/utils/Theme";
 
 const SongModal = ({ isOpen, onClose, setSong }: SongModalType) => {
   const {
@@ -70,8 +71,8 @@ const SongModal = ({ isOpen, onClose, setSong }: SongModalType) => {
                 `This song is released in ${releseYear} and the artist name is ${currentSong?.artistName}`}
             </Typography>
             <Button
-              color="secondary"
-              sx={{ backgroundColor: "#0891b2" }}
+              color="primary"
+              sx={{ backgroundColor: theme.palette.secondary.contrastText }}
               onClick={() => setSong(currentSong)}
             >
               {isPlaying ? "Pause" : "Play Song"}

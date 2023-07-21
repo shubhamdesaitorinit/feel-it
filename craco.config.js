@@ -36,13 +36,14 @@ module.exports = {
       "@controllers": path.resolve(__dirname, "src/controllers"),
       "@routes": path.resolve(__dirname, "src/routes"),
       "@ducks": path.resolve(__dirname, "src/ducks"),
+      "@utils": path.resolve(__dirname, "src/utils"),
     },
   },
   jest: {
     configure: {
       moduleNameMapper: {
         "^@src(.*)$": "<rootDir>/src$1",
-        "^@utils(.*)$": "<rootDir>/src/utils$1",
+        "^@utils(.*)$": "<rootDir>/src/utils",
         "^@images(.*)$": "<rootDir>/src/assets/images",
         "^@fonts(.*)$": "<rootDir>/src/assets/fonts",
         "^@constants(.*)$": "<rootDir>/src/constants",

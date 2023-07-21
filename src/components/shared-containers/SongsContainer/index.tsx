@@ -42,36 +42,6 @@ const SongsContainer = () => {
     changeOffset,
   });
 
-  // const handleScroll = useCallback(async () => {
-  //   if (containerRef.current) {
-  //     const scrollHeight = containerRef.current.scrollHeight;
-  //     const scrollTop = containerRef.current.scrollTop;
-  //     const clientHeight = containerRef.current.clientHeight;
-  //     const isNotScrolledToBottom = scrollHeight - scrollTop !== clientHeight;
-
-  //     if (isNotScrolledToBottom || isLoading || scrollIsLoading || search) {
-  //       return;
-  //     }
-  //     setScrollIsLoading(true);
-  //     setOffset((prev) => {
-  //       return (prev += 25);
-  //     });
-  //     setScrollIsLoading(false);
-  //   }
-  // }, [search, isLoading, scrollIsLoading]);
-
-  // useEffect(() => {
-  //   const containerDivRef = containerRef.current;
-  //   if (containerDivRef) {
-  //     containerDivRef.addEventListener("scroll", handleScroll);
-  //   }
-  //   return () => {
-  //     if (containerDivRef) {
-  //       containerDivRef.removeEventListener("scroll", handleScroll);
-  //     }
-  //   };
-  // }, [isLoading, offset, handleScroll]);
-
   const handleClose = () => {
     setIsOpen(false);
   };
@@ -91,13 +61,22 @@ const SongsContainer = () => {
   };
 
   useEffect(() => {
-    setIsLoading(true);
+    if (offset !== 1 && isLoading) {
+      setScrollIsLoading(true);
+    } else {
+      setScrollIsLoading(false);
+    }
+    // eslint-disable-next-line
+  }, [offset]);
+
+  useEffect(() => {
     (async () => {
       const url = `https://itunes.apple.com/search/?term=${
-        search || `alan walker`
+        search || `dj`
       }&offset=${search ? "" : offset}&limit=${
         search ? 100 : DEFAULT_SONG_REQUEST_LIMIT
       }`;
+      setIsLoading(true);
       const newSongs = await getSongs(url);
       setIsLoading(false);
 
@@ -110,24 +89,29 @@ const SongsContainer = () => {
         dispatch(setSongs({ songs: refinedData }));
       }
     })();
-    setIsLoading(false);
     // eslint-disable-next-line
   }, [search, offset, dispatch]);
 
-  const skeletonArray: number[] = new Array(10).fill("");
+  const skeletonArray: number[] = new Array(15).fill("");
 
   const renderSkelton = () => {
-    return skeletonArray.map((num: number, index: number) => {
+    return skeletonArray?.map((num: number, index: number) => {
       return (
         <Box key={index}>
           <Skeleton
             variant="rectangular"
-            width={300}
-            height={300}
-            sx={{ borderRadius: "10px 10px 0 0 " }}
+            width={200}
+            height={200}
+            sx={{ borderRadius: "10px" }}
           />
-          <Box sx={{ backgroundColor: "#a8a29e", borderRadius: "0 0 8px 8px" }}>
+          <Box
+            sx={{
+              backgroundColor: "#ffffff",
+              borderRadius: "0 0 8px 8px",
+            }}
+          >
             <Skeleton width="60%" />
+            <Skeleton width="40%" />
             <IconButton size={"large"}>
               <PlayArrowIcon />
             </IconButton>
@@ -141,26 +125,28 @@ const SongsContainer = () => {
   };
 
   const renderContent = (songs: Song[]) => {
-    return !isLoading
-      ? songs?.map((song: Song, index: number) => {
-          return (
-            <CustomCard
-              key={index}
-              details={song}
-              onClick={() => {
-                handleClick(song);
-              }}
-            />
-          );
-        })
-      : renderSkelton();
+    if (isLoading && !songs.length) {
+      return renderSkelton();
+    } else {
+      return songs?.map((song: Song, index: number) => {
+        return (
+          <CustomCard
+            key={index}
+            details={song}
+            onClick={() => {
+              handleClick(song);
+            }}
+          />
+        );
+      });
+    }
   };
 
   return (
     <StyledRootBox ref={containerRef}>
       <SongModal isOpen={isOpen} onClose={handleClose} setSong={setSong} />
       {renderContent(songs)}
-      {scrollIsLoading ? renderSkelton() : <></>}
+      {isLoading && songs?.length ? renderSkelton() : <></>}
     </StyledRootBox>
   );
 };

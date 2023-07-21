@@ -6,6 +6,7 @@ const initialState: SongStoreType = {
     name: "",
     previewUrl: "",
     artworkUrl100: "",
+    artworkUrl60: "",
     artistName: "",
     artistId: null,
     artistViewUrl: "",
