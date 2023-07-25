@@ -1,3 +1,4 @@
+import React from "react";
 import { StyledRootBox } from "./style";
 import { Auth } from "@supabase/auth-ui-react";
 import { ThemeSupa } from "@supabase/auth-ui-shared";
@@ -7,9 +8,9 @@ import { getAuthSession } from "@src/controllers/AuthControllers";
 import { useDispatch } from "react-redux";
 import { saveUserToken } from "@src/reducers/UserReducer";
 
-const LoginCard = () => {
+const LoginCard = (): JSX.Element => {
   const dispatch = useDispatch();
-  const getSession = async () => {
+  const getSession = async (): Promise<void> => {
     const session = await getAuthSession();
 
     if (session?.access_token) {
@@ -24,7 +25,7 @@ const LoginCard = () => {
 
   supabase.auth.onAuthStateChange(async (event) => {
     if (event === "SIGNED_IN") {
-      getSession();
+      await getSession();
     }
   });
 

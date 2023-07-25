@@ -1,23 +1,33 @@
 import axios from "axios";
 
-export const getSongs = async (url: string) => {
+interface ResponseType {
+  data: Song[] | null;
+  error: string | null;
+}
+
+export const getSongs = async (url: string): Promise<ResponseType> => {
   try {
-    const songs = await axios(url);
-    if (songs.data) {
-      return { data: (songs?.data?.results as Song[]) || [], error: null };
+    const response = await axios(url);
+    if (response?.data !== null) {
+      return { data: response?.data?.results as Song[], error: null };
+    } else {
+      return { data: [], error: "Failed to fetch data" };
     }
   } catch (error: any) {
-    return { data: null, error: error?.message || "Failed to get songs" };
+    return {
+      data: null,
+      error: error?.message || "Failed to get songs",
+    };
   }
 };
 
-export const refineSongsData = (data: Song[]) => {
+export const refineSongsData = (data: Song[]): Song[] => {
   if (!data?.length) return [];
 
-  const songsList: Song[] = data.reduce((accumulator, song) => {
+  const songsList: Song[] = data.reduce<Song[]>((accumulator, song) => {
     if (song?.previewUrl) {
-      const changeImageUrl = (url: string, pixel: number) => {
-        return url.replace("100x100", `${pixel}x${pixel}`);
+      const changeImageUrl = (url: string, pixel: number): string => {
+        return url ? url.replace("100x100", `${pixel}x${pixel}`) : "";
       };
       const refinedSong = {
         ...song,
@@ -31,6 +41,6 @@ export const refineSongsData = (data: Song[]) => {
       accumulator.push(refinedSong);
     }
     return accumulator;
-  }, [] as Song[]);
+  }, []);
   return songsList;
 };

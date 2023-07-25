@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { saveUserToken } from "@reducers/UserReducer";
 import Cookies from "js-cookie";
@@ -6,12 +6,12 @@ import AppRoutes from "@routes/AppRoutes";
 import AuthRoutes from "@routes/AuthRoutes";
 import { getAuthSession } from "@controllers/AuthControllers";
 
-const DefaultRouteMiddleware = () => {
+const DefaultRouteMiddleware = (): JSX.Element => {
   const dispatch = useDispatch();
   const {
     userData: { token },
   } = useSelector((state: UserStateType) => state.user);
-  const getSession = async () => {
+  const getSession = async (): Promise<void> => {
     const session = await getAuthSession();
 
     if (session?.access_token) {
@@ -26,7 +26,7 @@ const DefaultRouteMiddleware = () => {
   };
   useEffect(() => {
     if (!token) {
-      getSession();
+      void getSession();
     }
     // eslint-disable-next-line
   }, []);

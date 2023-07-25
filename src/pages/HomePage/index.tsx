@@ -1,7 +1,8 @@
+import React from "react";
 import SongsContainer from "@shared-containers/SongsContainer";
 import { StyledRootBox } from "./style";
 
-const HomePage = () => {
+const HomePage = (): JSX.Element => {
   return (
     <StyledRootBox>
       <SongsContainer />

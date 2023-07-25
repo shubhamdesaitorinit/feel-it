@@ -1,5 +1,5 @@
 import { Box, Grid, IconButton, Skeleton } from "@mui/material";
-import { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { DEFAULT_SONG_REQUEST_LIMIT } from "@constants/index";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
@@ -12,7 +12,7 @@ import CustomCard from "@shared-components/CustomCard";
 import SongModal from "@src/components/SongModal";
 import useScroll from "@src/hooks/ScrollHook";
 
-const SongsContainer = () => {
+const SongsContainer = (): JSX.Element => {
   const {
     songs,
     currentSong,
@@ -26,10 +26,10 @@ const SongsContainer = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const [isOpen, setIsOpen] = useState(false);
 
-  const setScrollLoading = (loading: boolean) => {
+  const setScrollLoading = (loading: boolean): void => {
     setScrollIsLoading(loading);
   };
-  const changeOffset = () => {
+  const changeOffset = (): void => {
     setOffset((prev) => {
       return (prev += 25);
     });
@@ -42,20 +42,20 @@ const SongsContainer = () => {
     changeOffset,
   });
 
-  const handleClose = () => {
+  const handleClose = (): void => {
     setIsOpen(false);
   };
 
-  const setSong = (song: Song) => {
+  const setSong = (song: Song): void => {
     if (currentSong?.previewUrl === song?.previewUrl) {
-      dispatch(setPlay({ isPlaying: isPlaying ? false : true }));
+      dispatch(setPlay({ isPlaying: !isPlaying }));
     } else {
       dispatch(setCurrentSong({ currentSong: song }));
       dispatch(setPlay({ isPlaying: true }));
     }
   };
 
-  const handleClick = (song: Song) => {
+  const handleClick = (song: Song): void => {
     setIsOpen(true);
     setSong(song);
   };
@@ -70,7 +70,7 @@ const SongsContainer = () => {
   }, [offset]);
 
   useEffect(() => {
-    (async () => {
+    void (async (): Promise<void> => {
       const url = `https://itunes.apple.com/search/?term=${
         search || `Billie Eilish`
       }&offset=${search ? "" : offset}&limit=${
@@ -94,7 +94,7 @@ const SongsContainer = () => {
 
   const skeletonArray: number[] = new Array(15).fill("");
 
-  const renderSkelton = () => {
+  const renderSkelton = (): JSX.Element[] => {
     return skeletonArray?.map((_: number, index: number) => {
       return (
         <Grid key={index} item xs={6} sm={4} md={3} lg={2} width={"100%"}>
@@ -134,7 +134,7 @@ const SongsContainer = () => {
     });
   };
 
-  const renderContent = (songs: Song[]) => {
+  const renderContent = (songs: Song[]): JSX.Element[] => {
     if (isLoading && !songs.length) {
       return renderSkelton();
     } else {

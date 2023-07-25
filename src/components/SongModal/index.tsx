@@ -1,3 +1,4 @@
+import React from "react";
 import { Button, IconButton, Modal, Typography } from "@mui/material";
 import FiberManualRecordIcon from "@mui/icons-material/FiberManualRecord";
 import { useSelector } from "react-redux";
@@ -8,7 +9,11 @@ import theme from "@src/utils/Theme";
 import { sliceText } from "@src/utils/GlobalFuntions";
 import LazyImage from "../LazyImage";
 
-const SongModal = ({ isOpen, onClose, setSong }: SongModalType) => {
+const SongModal = ({
+  isOpen,
+  onClose,
+  setSong,
+}: SongModalType): JSX.Element => {
   const {
     currentSong,
     songAction: { isPlaying },
@@ -23,8 +28,8 @@ const SongModal = ({ isOpen, onClose, setSong }: SongModalType) => {
       aria-describedby="description-song-details"
     >
       <StyledModelBox>
-        <IconButton>
-          <CloseIcon fontSize="large" onClick={onClose} />
+        <IconButton onClick={onClose}>
+          <CloseIcon fontSize="large" />
         </IconButton>
         <CardBox>
           <StyledImageBox>
@@ -63,7 +68,9 @@ const SongModal = ({ isOpen, onClose, setSong }: SongModalType) => {
                 backgroundColor: theme.palette.secondary.contrastText,
                 color: "#ffffff",
               }}
-              onClick={() => setSong(currentSong)}
+              onClick={() => {
+                setSong(currentSong);
+              }}
             >
               {isPlaying ? "Pause" : "Play Song"}
             </Button>

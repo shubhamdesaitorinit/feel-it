@@ -11,7 +11,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import { supabase } from "@supabaseClient/Auth";
 import { useNavigate } from "react-router-dom";
-import { useRef, useState } from "react";
+import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { setSearch, setSongs } from "@reducers/SongReducer";
 import {
@@ -26,8 +26,7 @@ import theme from "@src/utils/Theme";
 import { debounce } from "@src/utils/GlobalFuntions";
 import Sidebar from "@src/components/shared-layouts/Sidebar";
 
-const Navigation = () => {
-  const inputRef = useRef<HTMLInputElement>(null);
+const Navigation = (): JSX.Element => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -35,22 +34,24 @@ const Navigation = () => {
 
   const isMenuOpen = Boolean(anchorEl);
 
-  //Functions
-  const handleProfileMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
+  // Functions
+  const handleProfileMenuOpen = (
+    event: React.MouseEvent<HTMLElement>
+  ): void => {
     setAnchorEl(event.currentTarget);
   };
 
-  const handleDrawerClose = () => {
+  const handleDrawerClose = (): void => {
     setDrawerIsOpen(false);
   };
 
-  const handleOpenDrawer = () => {
+  const handleOpenDrawer = (): void => {
     setDrawerIsOpen((prev) => !prev);
   };
 
-  const handleLogout = async () => {
+  const handleLogout = (): void => {
     setAnchorEl(null);
-    await supabase.auth.signOut();
+    void supabase.auth.signOut();
     dispatch(
       saveUserToken({
         token: "",
@@ -59,18 +60,16 @@ const Navigation = () => {
     );
     navigate("/");
   };
-  const handleClose = () => {
+  const handleClose = (): void => {
     setAnchorEl(null);
   };
 
-  const setSearchVal = (searchInputVal: string) => {
+  const setSearchVal = (searchInputVal: string): void => {
     dispatch(setSearch({ search: searchInputVal }));
     dispatch(setSongs({ songs: [] }));
   };
 
   const handleSearch = debounce((inputVal: string) => {
-    if (inputRef.current !== null) {
-    }
     setSearchVal(inputVal);
   }, 1000);
 
@@ -91,7 +90,13 @@ const Navigation = () => {
       open={isMenuOpen}
       onClose={handleClose}
     >
-      <MenuItem onClick={handleLogout}>Log Out</MenuItem>
+      <MenuItem
+        onClick={(): void => {
+          handleLogout();
+        }}
+      >
+        Log Out
+      </MenuItem>
     </Menu>
   );
 

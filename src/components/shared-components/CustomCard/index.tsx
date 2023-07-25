@@ -1,3 +1,4 @@
+import React from "react";
 import { Box, IconButton, Typography } from "@mui/material";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import PauseIcon from "@mui/icons-material/Pause";
@@ -12,7 +13,7 @@ interface CardType {
   setSong: (song: Song) => void;
 }
 
-const CustomCard = ({ details, onClick, setSong }: CardType) => {
+const CustomCard = ({ details, onClick, setSong }: CardType): JSX.Element => {
   const {
     currentSong,
     songAction: { isPlaying },

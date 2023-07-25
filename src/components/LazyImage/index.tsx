@@ -1,7 +1,13 @@
 import { CardMedia } from "@mui/material";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 
-const LazyImage = ({ url, lowUrl }: { url: string; lowUrl?: string }) => {
+const LazyImage = ({
+  url,
+  lowUrl,
+}: {
+  url: string;
+  lowUrl: string;
+}): JSX.Element => {
   const [imageData, setImageData] = useState(url);
 
   useEffect(() => {
@@ -26,6 +32,7 @@ const LazyImage = ({ url, lowUrl }: { url: string; lowUrl?: string }) => {
         width: "100%",
         height: "100%",
         borderRadius: "8px",
+        objectFit: "fill !important",
       }}
     />
   );

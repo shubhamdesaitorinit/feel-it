@@ -1,9 +1,10 @@
+import React from "react";
 import { Box, CardMedia } from "@mui/material";
 import LoginImage from "@images/loginImage.jpeg";
 import LoginCard from "@components/LoginCard";
 import { StyledLoginBox, StyledRootBox } from "./style";
 
-const LoginPage = () => {
+const LoginPage = (): JSX.Element => {
   return (
     <Box className="container-2xl h-screen flex mx-auto">
       <StyledRootBox>
@@ -20,7 +21,7 @@ const LoginPage = () => {
       </StyledRootBox>
 
       <StyledLoginBox>
-        <LoginCard  />
+        <LoginCard />
       </StyledLoginBox>
     </Box>
   );

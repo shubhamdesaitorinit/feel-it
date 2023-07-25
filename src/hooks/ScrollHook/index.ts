@@ -14,12 +14,12 @@ const useScroll = ({
   setScrollLoading,
   containerRef,
   changeOffset,
-}: UseScrollType) => {
+}: UseScrollType): void => {
   const {
     songAction: { search },
   } = useSelector(({ song }: { song: SongStoreType }) => song);
 
-  const handleScroll = useCallback(async () => {
+  const handleScroll = useCallback(async (): Promise<void> => {
     if (containerRef?.current) {
       const scrollHeight = containerRef?.current?.scrollHeight;
       const scrollTop = containerRef?.current?.scrollTop;
@@ -45,14 +45,17 @@ const useScroll = ({
   useEffect(() => {
     const containerDivRef = containerRef.current;
     if (containerDivRef) {
-      containerDivRef.addEventListener("scroll", handleScroll);
+      containerDivRef.addEventListener("scroll", () => {
+        void handleScroll();
+      });
     }
     return () => {
       if (containerDivRef) {
-        containerDivRef.removeEventListener("scroll", handleScroll);
+        containerDivRef.removeEventListener("scroll", () => {
+          void handleScroll();
+        });
       }
     };
   }, [isLoading, handleScroll, containerRef]);
-  return;
 };
 export default useScroll;

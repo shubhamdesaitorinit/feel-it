@@ -1,6 +1,7 @@
+import React from "react";
 import { Box } from "@mui/material";
 
-const NotFound = () => {
+const NotFound = (): JSX.Element => {
   return (
     <Box
       sx={{

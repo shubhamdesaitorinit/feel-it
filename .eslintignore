@@ -1,0 +1,10 @@
+build
+react-app-env.d.ts
+node_modules
+yarn.lock
+package-lock.json
+public
+.eslintrc.js
+./src/index.d.ts
+.prettierignore
+.prettierrc

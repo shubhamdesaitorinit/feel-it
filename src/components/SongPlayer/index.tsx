@@ -6,7 +6,7 @@ import {
   Slider,
   Typography,
 } from "@mui/material";
-import { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import PauseIcon from "@mui/icons-material/Pause";
 import VolumeUpIcon from "@mui/icons-material/VolumeUp";
@@ -18,7 +18,7 @@ import SkipNextIcon from "@mui/icons-material/SkipNext";
 import SkipPreviousIcon from "@mui/icons-material/SkipPrevious";
 import theme from "@src/utils/Theme";
 import { sliceText } from "@src/utils/GlobalFuntions";
-const SongPlayer = () => {
+const SongPlayer = (): JSX.Element => {
   const dispatch = useDispatch();
   const {
     songs,
@@ -31,11 +31,12 @@ const SongPlayer = () => {
   const [trackTime, setTrackTime] = useState(0);
   const [firstRender, setFirstRender] = useState(true);
 
-  //Functions
-  const togglePlayback = () => {
+  // Functions
+  const togglePlayback = (): void => {
     if (audioRef.current) {
       if (isPlaying) {
         audioRef.current.play().catch((error) => {
+          // eslint-disable-next-line no-console
           console.log("Autoplay prevented:", error);
         });
       } else if (!isPlaying) {
@@ -44,7 +45,7 @@ const SongPlayer = () => {
     }
   };
 
-  const togglePlay = () => {
+  const togglePlay = (): void => {
     if (audioRef.current) {
       if (audioRef.current.paused || !isPlaying) {
         dispatch(setPlay({ isPlaying: true }));
@@ -54,19 +55,19 @@ const SongPlayer = () => {
     }
   };
 
-  const handleVolumeChange = (newValue: number) => {
+  const handleVolumeChange = (newValue: number): void => {
     setVolume(newValue);
     if (audioRef.current) {
       audioRef.current.volume = newValue / 100;
     }
   };
 
-  const toggleVolume = () => {
+  const toggleVolume = (): void => {
     setVolume((volume) => (volume <= 0 ? 50 : 0));
   };
 
-  const handlePrevButtonClick = () => {
-    const isPrevSong = (song: Song) =>
+  const handlePrevButtonClick = (): void => {
+    const isPrevSong = (song: Song): boolean =>
       song?.previewUrl === currentSong?.previewUrl;
     const currentSongIndex = songs?.findIndex(isPrevSong);
     const prevSong =
@@ -74,8 +75,8 @@ const SongPlayer = () => {
     dispatch(setCurrentSong({ currentSong: prevSong }));
   };
 
-  const handleNextButtonClick = () => {
-    const isNextSong = (song: Song) =>
+  const handleNextButtonClick = (): void => {
+    const isNextSong = (song: Song): boolean =>
       song?.previewUrl === currentSong?.previewUrl;
     const currentSongIndex = songs?.findIndex(isNextSong);
     const prevSong =
@@ -103,6 +104,7 @@ const SongPlayer = () => {
                 width: "50px !important",
                 height: "50px !important",
                 borderRadius: "10px",
+                objectFit: "fill !important",
               }}
               image={currentSong?.artworkUrl100}
               alt="S"
@@ -150,7 +152,9 @@ const SongPlayer = () => {
             size="small"
             value={Number(trackTime)}
             onChange={(_, newValue) => {
-              audioRef.current!.currentTime = Number(newValue);
+              if (audioRef?.current) {
+                audioRef.current.currentTime = Number(newValue);
+              }
             }}
             min={0}
             max={Number(audioRef.current?.duration) || 0}

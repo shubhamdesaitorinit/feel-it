@@ -1,10 +1,11 @@
+import React from "react";
 import { Container } from "@mui/material";
 import { Outlet } from "react-router-dom";
 import Navigation from "@shared-containers/Navigation";
 import SongPlayer from "@components/SongPlayer";
 import { StyledContainer } from "./style";
 
-const DefaultLayout = () => {
+const DefaultLayout = (): JSX.Element => {
   return (
     <Container maxWidth={false} disableGutters>
       <Navigation />
