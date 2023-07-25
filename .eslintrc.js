@@ -20,9 +20,11 @@ module.exports = {
     sourceType: "module",
     project: ["./tsconfig.json"],
   },
-  plugins: ["react"],
+  plugins: ["react", "react-hooks"],
   rules: {
     "no-console": "warn",
     "@typescript-eslint/strict-boolean-expressions": "off",
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "warn",
   },
 };
