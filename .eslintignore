@@ -5,6 +5,9 @@ yarn.lock
 package-lock.json
 public
 .eslintrc.js
-./src/index.d.ts
+src/index.d.ts
 .prettierignore
 .prettierrc
+craco.config.js
+tsconfig.json
+tailwind.config.js

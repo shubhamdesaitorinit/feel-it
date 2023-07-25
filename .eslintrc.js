@@ -21,8 +21,9 @@ module.exports = {
     project: ["./tsconfig.json"],
   },
   plugins: ["react", "react-hooks"],
+  ignorePatterns: ["tsconfig", "dist", ".config"],
   rules: {
-    "no-console": "warn",
+    "no-console": "error",
     "@typescript-eslint/strict-boolean-expressions": "off",
     "react-hooks/rules-of-hooks": "error",
     "react-hooks/exhaustive-deps": "warn",
