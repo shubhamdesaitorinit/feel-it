@@ -72,7 +72,7 @@ const SongsContainer = (): JSX.Element => {
   useEffect(() => {
     void (async (): Promise<void> => {
       const url = `https://itunes.apple.com/search/?term=${
-        search || `Billie Eilish`
+        search || `alan`
       }&offset=${search ? "" : offset}&limit=${
         search ? 100 : DEFAULT_SONG_REQUEST_LIMIT
       }`;
